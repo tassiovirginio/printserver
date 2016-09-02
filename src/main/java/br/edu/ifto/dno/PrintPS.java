@@ -25,28 +25,23 @@ public class PrintPS {
     }
 
     public void enviarArquivoImpressao(FileInputStream documento, String impressora){
-
         try {
-
             Doc myDoc = new SimpleDoc(documento, myFormat, null);
-
             PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
 
             aset.add(new Copies(1));
             aset.add(Sides.ONE_SIDED);
 
             PrintService[] printServices = PrintServiceLookup.lookupPrintServices(myFormat,null);
-
             DocPrintJob job = null;
 
             for(PrintService ps:printServices){
                 if(impressora.trim().equalsIgnoreCase(ps.getName())){
                     job = ps.createPrintJob();
-                    System.out.println("Imprimindo na impressora: " + ps.getName());
+                    System.out.println("Imprimindo em: " + ps.getName());
                     break;
                 }
             }
-
             job.print(myDoc, aset);
 
         }catch (Exception e){
