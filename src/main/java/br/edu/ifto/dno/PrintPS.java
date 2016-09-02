@@ -19,12 +19,12 @@ public class PrintPS {
     }
 
     public ArrayList<String> listPrints(){
-        ArrayList<String> lista = new ArrayList<String>();
+        ArrayList<String> listaImrpessoras = new ArrayList<String>();
         PrintService[] printServices = PrintServiceLookup.lookupPrintServices(myFormat,null);
         for(PrintService ps:printServices){
-            lista.add(ps.getName());
+            listaImrpessoras.add(ps.getName());
         }
-        return lista;
+        return listaImrpessoras;
     }
 
     public void enviarArquivoImpressao(FileInputStream documento, String impressora, int copias, Sides lados){
