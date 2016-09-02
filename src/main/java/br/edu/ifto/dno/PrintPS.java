@@ -12,8 +12,11 @@ import java.util.ArrayList;
 
 public class PrintPS {
 
-    private static DocFlavor myFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;
+    private static DocFlavor myFormat;
 
+    public PrintPS(){
+        myFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;
+    }
 
     public ArrayList<String> listPrints(){
         ArrayList<String> lista = new ArrayList<String>();
@@ -36,7 +39,7 @@ public class PrintPS {
             DocPrintJob job = null;
 
             for(PrintService ps:printServices){
-                if(impressora.trim().equalsIgnoreCase(ps.getName())){
+                if(impressora.trim().equalsIgnoreCase(ps.getName().trim())){
                     job = ps.createPrintJob();
                     System.out.println("Imprimindo em: " + ps.getName());
                     break;
