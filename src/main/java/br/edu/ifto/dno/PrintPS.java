@@ -24,13 +24,13 @@ public class PrintPS {
         return lista;
     }
 
-    public void enviarArquivoImpressao(FileInputStream documento, String impressora){
+    public void enviarArquivoImpressao(FileInputStream documento, String impressora, int copias, Sides lados){
         try {
             Doc myDoc = new SimpleDoc(documento, myFormat, null);
             PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
 
-            aset.add(new Copies(1));
-            aset.add(Sides.ONE_SIDED);
+            aset.add(new Copies(copias));
+            aset.add(lados);
 
             PrintService[] printServices = PrintServiceLookup.lookupPrintServices(myFormat,null);
             DocPrintJob job = null;
