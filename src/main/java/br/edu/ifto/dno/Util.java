@@ -10,15 +10,19 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class PrintPS {
+public class Util {
 
     private static DocFlavor myFormat;
 
-    public PrintPS(){
+    static {
         myFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;
     }
 
-    public ArrayList<String> listPrints(){
+    public Util(){
+
+    }
+
+    public static ArrayList<String> listPrints(){
         ArrayList<String> listaImrpessoras = new ArrayList<String>();
         PrintService[] printServices = PrintServiceLookup.lookupPrintServices(myFormat,null);
         for(PrintService ps:printServices){
@@ -27,7 +31,7 @@ public class PrintPS {
         return listaImrpessoras;
     }
 
-    public void enviarArquivoImpressao(FileInputStream documento, String impressora, int copias, Sides lados){
+    public static void enviarArquivoImpressao(FileInputStream documento, String impressora, int copias, Sides lados){
         try {
             Doc myDoc = new SimpleDoc(documento, myFormat, null);
             PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
