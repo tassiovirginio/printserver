@@ -3,6 +3,7 @@ package br.edu.ifto.dno;
 import br.edu.ifto.dno.entities.Impressao;
 import br.edu.ifto.dno.entities.ImpressaoBusiness;
 import br.edu.ifto.dno.ldap.PersonRepo;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.wicket.Application;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -41,6 +42,8 @@ public class HomePage extends WebPage {
     private String senha;
 
     private Integer copias;
+
+    private String paginas;
 
     @SpringBean
     private PersonRepo personRepo;
@@ -88,7 +91,20 @@ public class HomePage extends WebPage {
                             try {
                                 newFile.createNewFile();
                                 upload.writeTo(newFile);
-                                HomePage.this.info("Usuario: " + login + " enviou impressão para : " + impressoraSelecionada + " - " + upload.getClientFileName());
+
+                                PDDocument doc = PDDocument.load(newFile);
+                                int numeroPaginas = doc.getNumberOfPages();
+
+                                //paginas ex: 1-10
+
+                                HomePage.this.info("Usuario: " + login + " enviou impressão para : "
+                                        + impressoraSelecionada
+                                        + " - "
+                                        + upload.getClientFileName()
+                                        + " - Paginas do Documento: " + numeroPaginas
+                                        + " - Paginas Total: " + numeroPaginas * copias
+                                );
+
 
                                 FileInputStream fileInputStream = new FileInputStream(newFile);
                                 Util.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, getSides(opcaoSides));
@@ -98,6 +114,8 @@ public class HomePage extends WebPage {
                                 impressao.setImpressora(impressoraSelecionada);
                                 impressao.setUsuario(login);
                                 impressao.setCopias(copias);
+                                impressao.setPaginasDocumento(numeroPaginas);
+                                impressao.setPaginasTotal(numeroPaginas * copias);
                                 impressao.setNomeArquivo(newFile.getName());
 
                                 impressaoBusiness.save(impressao);
@@ -143,6 +161,11 @@ public class HomePage extends WebPage {
 
         progressUploadForm.add(new TextField
                 ("copias", new PropertyModel<String>(this, "copias"))
+                .setRequired(true)
+        );
+
+        progressUploadForm.add(new TextField
+                ("paginas", new PropertyModel<String>(this, "paginas"))
                 .setRequired(true)
         );
 

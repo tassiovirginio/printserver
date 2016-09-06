@@ -26,6 +26,8 @@ public class Impressao implements Serializable {
 
     private Integer paginasTotal;
 
+    private Integer paginasDocumento;
+
     private Date data;
 
     private String nomeArquivo;
@@ -36,6 +38,14 @@ public class Impressao implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getPaginasDocumento() {
+        return paginasDocumento;
+    }
+
+    public void setPaginasDocumento(Integer paginasDocumento) {
+        this.paginasDocumento = paginasDocumento;
     }
 
     public String getNomeArquivo() {
