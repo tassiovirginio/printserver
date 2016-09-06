@@ -35,7 +35,7 @@
             </button>
             <a class="navbar-brand" href="/" style="color: dodgerblue">
                 <span class="glyphicon glyphicon-print"></span>
-                IFTO - PrintServer
+                PRINTSERVER
             </a>
         </div>
     </div>
@@ -43,29 +43,26 @@
 <br><br>
 <div class="container">
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 main">
+        <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 main">
             <div class="panel panel-default">
                 <div class="panel-body fundocinza">
                     <form wicket:id="formUpload">
                         <fieldset>
                             Impressora:
-                            <select wicket:id="listaimpressoras">
-                            </select>
-                            <br><br>
+                            <select wicket:id="listaimpressoras" class="form-control" />
+                            Cópias: <input wicket:id="copias" class="form-control" type="text" style="width: 40px;" value="1"/>
                             Duplex/One Sided:
-                            <select wicket:id="listaLados">
-                            </select>
-                            <br><br>
-                            SIAPE: <input type="text"/>
-                            <br><br>
-                            Senha: <input type="password"/>
-                            <br><br>
-                            <legend>Upload do documento para impressoão</legend>
+                            <select wicket:id="listaLados" class="form-control"/>
+                            <br>
+                            <input wicket:id="login" class="form-control" placeholder="SIAPE" type="text"/>
+                            <input wicket:id="senha" class="form-control" placeholder="SENHA" type="password"/>
+                            <br>
+                            <legend>Upload do Documento para Impressão</legend>
                             <p>
-                                <label for="uploadWithProgress">Documento</label>
-                                <input wicket:id="fileInput" type="file" id="uploadWithProgress"/>
+                                <label for="uploadWithProgress">Documento (PDF)</label>
+                                <input class="form-control"  wicket:id="fileInput" type="file" id="uploadWithProgress"/>
                             </p>
-                            <input type="submit" value="Imprimir"/>
+                            <input class="btn btn-warning" type="submit" value="Imprimir"/>
                             <span wicket:id="progress">[[upload progressbar]]</span>
 
 
