@@ -1,0 +1,14 @@
+{
+  "name": "Resmas e Toners",
+  "short_name": "RT",
+  "icons": [{
+    "src": "../imgs/50x50.png",
+    "sizes": "50x50"
+  }],
+  "display": "standalone",
+  "display_": "browser",
+  "background_color": "green",
+  "orientation_": "portrait",
+  "lang": "pt-BR"
+
+}

@@ -1,49 +1,87 @@
-<!DOCTYPE html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html xmlns:wicket="http://wicket.apache.org">
-	<head>
-		<meta charset="utf-8" />
-		<title>Apache Wicket Quickstart</title>
-		<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold' rel='stylesheet' type='text/css' />
-		<link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Stylesheet" />
-	</head>
-	<body>
-		<div id="hd">
-		</div>
-		<div id="bd">
-			<div>
-				<h1>IFTO - PrintServer</h1>
-			</div>
-			<form wicket:id="formUpload">
-				<fieldset>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="manifest" href="css/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="bootstrap-3.3.5-dist/css/bootstrap.min.css" type="text/css" title="Stylesheet"/>
+    <link rel="stylesheet" href="bootstrap-3.3.5-dist/css/bootstrap-theme.min.css" type="text/css"
+          title="Stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="bootstrap-daterangepicker-master/daterangepicker.css"/>
+    <meta charset="utf-8"/>
+    <title>PrintServer</title>
+    <link rel="shortcut icon" href="imgs/favicon.png"/>
 
-					Impressora:
-					<select wicket:id="listaimpressoras">
-					</select>
-					<br><br>
-					Duplex/One Sided:
-					<select wicket:id="listaLados">
-					</select>
-					<br><br>
-					SIAPE: <input type="text" />
-					<br><br>
-					Senha: <input type="password" />
-					<br><br>
-					<legend>Upload do documento para impressoão</legend>
-					<p>
-						<label for="uploadWithProgress">Documento</label>
-						<input wicket:id="fileInput" type="file" id="uploadWithProgress"/>
-					</p>
-					<input type="submit" value="Imprimir"/>
-					<span wicket:id="progress">[[upload progressbar]]</span>
+    <link href="css/BasePage.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/" style="color: dodgerblue">
+                <span class="glyphicon glyphicon-print"></span>
+                IFTO - PrintServer
+            </a>
+        </div>
+    </div>
+</nav>
+<br><br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 main">
+            <div class="panel panel-default">
+                <div class="panel-body fundocinza">
+                    <form wicket:id="formUpload">
+                        <fieldset>
+                            Impressora:
+                            <select wicket:id="listaimpressoras">
+                            </select>
+                            <br><br>
+                            Duplex/One Sided:
+                            <select wicket:id="listaLados">
+                            </select>
+                            <br><br>
+                            SIAPE: <input type="text"/>
+                            <br><br>
+                            Senha: <input type="password"/>
+                            <br><br>
+                            <legend>Upload do documento para impressoão</legend>
+                            <p>
+                                <label for="uploadWithProgress">Documento</label>
+                                <input wicket:id="fileInput" type="file" id="uploadWithProgress"/>
+                            </p>
+                            <input type="submit" value="Imprimir"/>
+                            <span wicket:id="progress">[[upload progressbar]]</span>
 
 
-				</fieldset>
-			</form>
-			<div>
-				<span wicket:id="uploadFeedback"/>
-			</div>
-		</div>
-		<div id="ft">
-		</div>
-	</body>
+                        </fieldset>
+                    </form>
+                    <div>
+                        <span wicket:id="uploadFeedback"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<script src="bootstrap-3.3.5-dist/js/npm.js"></script>
+
+</body>
 </html>
