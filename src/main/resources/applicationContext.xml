@@ -108,17 +108,17 @@
     <!--</bean>-->
 
 
-    <!--<ldap:context-source-->
-            <!--url="${ldap.url}"-->
-            <!--base="${ldap.base}"-->
-            <!--username="${ldap.username}"-->
-            <!--password="${ldap.password}" />-->
+    <ldap:context-source
+            url="${ldap.url}"
+            base="${ldap.base}"
+            username="${ldap.username}"
+            password="${ldap.password}" />
 
-    <!--<ldap:ldap-template id="ldapTemplate" />-->
+    <ldap:ldap-template id="ldapTemplate" />
 
-    <!--<bean id="personRepo" class="br.edu.ifto.dno.ldap.PersonRepo">-->
-        <!--<property name="ldapTemplate" ref="ldapTemplate" />-->
-    <!--</bean>-->
+    <bean id="personRepo" class="br.edu.ifto.dno.ldap.PersonRepo">
+        <property name="ldapTemplate" ref="ldapTemplate" />
+    </bean>
 
     <!-- Contexto de conexao com o servidor -->
     <!--<bean id="contextSourceTarget" class="org.springframework.ldap.core.support.LdapContextSource">-->
