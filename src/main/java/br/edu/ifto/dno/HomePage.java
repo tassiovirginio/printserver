@@ -4,6 +4,9 @@ import br.edu.ifto.dno.entities.Impressao;
 import br.edu.ifto.dno.entities.ImpressaoBusiness;
 import br.edu.ifto.dno.ldap.PersonRepo;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageTree;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.wicket.Application;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -43,7 +46,8 @@ public class HomePage extends WebPage {
 
     private Integer copias;
 
-    private String paginas;
+    private Integer paginaInicial;
+    private Integer paginaFinal;
 
     @SpringBean
     private PersonRepo personRepo;
@@ -93,9 +97,24 @@ public class HomePage extends WebPage {
                                 upload.writeTo(newFile);
 
                                 PDDocument doc = PDDocument.load(newFile);
-                                int numeroPaginas = doc.getNumberOfPages();
+//                                int numeroPaginas = doc.getNumberOfPages();
 
                                 //paginas ex: 1-10
+                                PDPageTree paginas = doc.getPages();
+                                paginas.getCount();
+
+                                PDDocument PDFPaginas = new PDDocument();
+
+                                int paginaAtual = paginaInicial;
+
+                                while(paginaAtual < paginaFinal){
+                                    PDFPaginas.addPage(paginas.get(paginaAtual));
+                                    paginaAtual++;
+                                }
+
+                                int numeroPaginas = PDFPaginas.getNumberOfPages();
+
+                                PDFPaginas.save(newFile);
 
                                 HomePage.this.info("Usuario: " + login + " enviou impressão para : "
                                         + impressoraSelecionada
@@ -165,7 +184,12 @@ public class HomePage extends WebPage {
         );
 
         progressUploadForm.add(new TextField
-                ("paginas", new PropertyModel<String>(this, "paginas"))
+                ("paginaInicial", new PropertyModel<String>(this, "paginaInicial"))
+                .setRequired(true)
+        );
+
+        progressUploadForm.add(new TextField
+                ("paginaFinal", new PropertyModel<String>(this, "paginaFinal"))
                 .setRequired(true)
         );
 
