@@ -53,7 +53,6 @@ public class Util {
             for(PrintService ps:printServices){
                 if(impressora.trim().equalsIgnoreCase(ps.getName().trim())){
                     job = ps.createPrintJob();
-                    System.out.println("Imprimindo em: " + ps.getName());
                     break;
                 }
             }
