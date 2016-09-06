@@ -31,6 +31,14 @@ public class Util {
         return listaImrpessoras;
     }
 
+    public static ArrayList<String> listSides(){
+        ArrayList<String> lista = new ArrayList<String>();
+        lista.add(Sides.ONE_SIDED.toString());
+        lista.add(Sides.TWO_SIDED_LONG_EDGE.toString());
+        lista.add(Sides.TWO_SIDED_SHORT_EDGE.toString());
+        return lista;
+    }
+
     public static void enviarArquivoImpressao(FileInputStream documento, String impressora, int copias, Sides lados){
         try {
             Doc myDoc = new SimpleDoc(documento, myFormat, null);

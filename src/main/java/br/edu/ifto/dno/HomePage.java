@@ -27,6 +27,8 @@ public class HomePage extends WebPage {
 
     private String impressoraSelecionada;
 
+    private String opcaoSides;
+
     private Folder getUploadFolder() {
         return ((WicketApplication) Application.get()).getUploadFolder();
     }
@@ -49,11 +51,10 @@ public class HomePage extends WebPage {
                         try {
                             newFile.createNewFile();
                             upload.writeTo(newFile);
-                            HomePage.this.info("saved file: " + upload.getClientFileName());
+                            HomePage.this.info("Arquivo Salvo e enviado para impressão em : " + impressoraSelecionada + " - " + upload.getClientFileName());
 
                             FileInputStream fileInputStream = new FileInputStream(newFile);
-
-                            Util.enviarArquivoImpressao(fileInputStream,impressoraSelecionada,1, Sides.ONE_SIDED);
+                            Util.enviarArquivoImpressao(fileInputStream,impressoraSelecionada,1, getSides(opcaoSides));
 
                         } catch (Exception e) {
                             throw new IllegalStateException("Unable to write file", e);
@@ -76,6 +77,19 @@ public class HomePage extends WebPage {
         ddcImpressoras.setRequired(true);
         progressUploadForm.add(ddcImpressoras);
 
+        List<String> listaLados = Util.listSides();
+        DropDownChoice ddcLados = new DropDownChoice("listaLados", new PropertyModel(this, "opcaoSides"), listaLados);
+        ddcLados.setRequired(true);
+        progressUploadForm.add(ddcLados);
+
+    }
+
+    private Sides getSides(String lado){
+        if(Sides.ONE_SIDED.toString().equalsIgnoreCase(lado)) return Sides.ONE_SIDED;
+        if(Sides.DUPLEX.toString().equalsIgnoreCase(lado)) return Sides.DUPLEX;
+        if(Sides.TWO_SIDED_SHORT_EDGE.toString().equalsIgnoreCase(lado)) return Sides.TWO_SIDED_SHORT_EDGE;
+        if(Sides.TWO_SIDED_LONG_EDGE.toString().equalsIgnoreCase(lado)) return Sides.TWO_SIDED_LONG_EDGE;
+        return null;
     }
 
     private void checkFileExists(File newFile) {
