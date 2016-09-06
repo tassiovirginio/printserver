@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:ldap="http://www.springframework.org/schema/ldap"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+
+
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+
+
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-2.5.xsd
+
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd
+
+	http://www.springframework.org/schema/ldap
+	http://www.springframework.org/schema/ldap/spring-ldap.xsd
+	">
+
+    <bean id="placeholderConfig"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:application.properties</value>
+        </property>
+        <property name="systemPropertiesModeName">
+            <value>SYSTEM_PROPERTIES_MODE_OVERRIDE</value>
+        </property>
+        <property name="fileEncoding" value="utf-8"/>
+    </bean>
+
+    <context:component-scan base-package="br.edu.ifto.dno"/>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="jadira.usertype.autoRegisterUserTypes">true</prop>
+                <prop key="jadira.usertype.databaseZone">jvm</prop>
+                <prop key="jadira.usertype.javaZone">jvm</prop>
+                <!--<prop key="jadira.usertype.autoRegisterUserTypes">true</prop>-->
+            </props>
+        </property>
+        <property name="packagesToScan" value="br.edu.ifto.dno.entities"/>
+    </bean>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass">
+            <value>${jdbc.driver}</value>
+        </property>
+        <property name="jdbcUrl">
+            <value>${jdbc.url}</value>
+        </property>
+        <property name="user">
+            <value>${jdbc.username}</value>
+        </property>
+        <property name="password">
+            <value>${jdbc.password}</value>
+        </property>
+        <property name="minPoolSize">
+            <value>${c3p0.minPoolSize}</value>
+        </property>
+        <property name="maxPoolSize">
+            <value>${c3p0.maxPoolSize}</value>
+        </property>
+        <property name="checkoutTimeout">
+            <!-- Give up waiting for a connection after this many milliseconds -->
+            <value>${c3p0.checkoutTimeout}</value>
+        </property>
+        <property name="maxIdleTime">
+            <value>${c3p0.maxIdleTime}</value>
+        </property>
+        <property name="idleConnectionTestPeriod">
+            <value>${c3p0.idleConnectionTestPeriod}</value>
+        </property>
+        <property name="automaticTestTable">
+            <value>${c3p0.automaticTestTable}</value>
+        </property>
+    </bean>
+
+    <!--<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">-->
+        <!--<property name="host" value="${email.host}"/>-->
+        <!--<property name="port" value="${email.port}"/>-->
+        <!--<property name="username" value="${email.username}"/>-->
+        <!--<property name="password" value="${email.password}"/>-->
+        <!--<property name="javaMailProperties">-->
+            <!--<props>-->
+                <!--<prop key="mail.smtp.auth">true</prop>-->
+                <!--<prop key="mail.smtp.starttls.enable">true</prop>-->
+                <!--<prop key="mail.smtp.ssl.trust">${email.host}</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+
+    <!--<ldap:context-source-->
+            <!--url="${ldap.url}"-->
+            <!--base="${ldap.base}"-->
+            <!--username="${ldap.username}"-->
+            <!--password="${ldap.password}" />-->
+
+    <!--<ldap:ldap-template id="ldapTemplate" />-->
+
+    <!--<bean id="personRepo" class="br.edu.ifto.dno.ldap.PersonRepo">-->
+        <!--<property name="ldapTemplate" ref="ldapTemplate" />-->
+    <!--</bean>-->
+
+    <!-- Contexto de conexao com o servidor -->
+    <!--<bean id="contextSourceTarget" class="org.springframework.ldap.core.support.LdapContextSource">-->
+    <!--<property name="url" value="ldap://10.4.0.3:389/" />-->
+    <!--<property name="base" value="ou=CA-DIANOP,ou=REITORIA,ou=IFTO,dc=ifto,dc=local" />-->
+    <!--<property name="userDn" value="cn=administrador,cn=users,dc=ifto,dc=local"/>-->
+    <!--<property name="password" value="Pmw_ifto_"/>-->
+    <!--<property name="pooled" value="true"/>-->
+    <!--</bean>-->
+
+    <!-- Pool de conexoes! Olhar no site para ou no pojo para ver as possiveis propriedades -->
+    <!--<bean id="contextSource"  class="org.springframework.ldap.pool.factory.PoolingContextSource">-->
+    <!--<property name="contextSource" ref="contextSourceTarget" />-->
+    <!--</bean>-->
+
+    <!-- Helper  -->
+    <!--<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">-->
+    <!--<constructor-arg ref="contextSource" />-->
+    <!--</bean>-->
+
+</beans>
