@@ -15,4 +15,4 @@ hs_err_pid*
 target
 *.iml
 
-src/main/resources/application.properties
+#src/main/resources/application.properties
