@@ -81,18 +81,18 @@ public class HomePage extends WebPage {
                 try {
 //                    loginOK = personRepo.login(login,senha);
                     loginOK = true;
-                }catch (Exception e){
+                } catch (Exception e) {
                     HomePage.this.info("Error: " + e.getLocalizedMessage());
                 }
 
 
-                if(loginOK) {
+                if (loginOK) {
                     final List<FileUpload> uploads = fileUploadField.getFileUploads();
                     if (uploads != null) {
                         for (FileUpload upload : uploads) {
                             File newFile = new File(getUploadFolder(), upload.getClientFileName());
 
-                            if(!newFile.getName().endsWith(".pdf")){
+                            if (!newFile.getName().endsWith(".pdf")) {
                                 HomePage.this.info("O ARQUIVO TEM QUE SER PDF !!");
                                 break;
                             }
@@ -105,40 +105,47 @@ public class HomePage extends WebPage {
                                 PDDocument doc_ = PDDocument.load(newFile);
 //                                int numeroPaginas = doc.getNumberOfPages();
 
-                                PDDocument docFinal = getPages(doc_,paginas);
+                                PDDocument docFinal = getPages(doc_, paginas);
                                 int numeroPaginas = docFinal.getNumberOfPages();
 
-                                HomePage.this.info("Usuario: " + login + " enviou impressão para : "
-                                        + impressoraSelecionada
-                                        + " - "
-                                        + upload.getClientFileName()
-                                        + " - Paginas do Documento: " + numeroPaginas
-                                        + " - Paginas Total: " + numeroPaginas * copias
-                                );
 
-                                docFinal.save(newFile);
+                                if (docFinal.getNumberOfPages() > 0) {
 
-                                FileInputStream fileInputStream = new FileInputStream(newFile);
+                                    HomePage.this.info("Usuario: " + login + " enviou impressão para : "
+                                            + impressoraSelecionada
+                                            + " - "
+                                            + upload.getClientFileName()
+                                            + " - Paginas do Documento: " + numeroPaginas
+                                            + " - Paginas Total: " + numeroPaginas * copias
+                                    );
 
-                                Util.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, getSides(opcaoSides));
 
-                                Impressao impressao = new Impressao();
-                                impressao.setData(new Date());
-                                impressao.setImpressora(impressoraSelecionada);
-                                impressao.setUsuario(login);
-                                impressao.setCopias(copias);
-                                impressao.setPaginasDocumento(numeroPaginas);
-                                impressao.setPaginasTotal(numeroPaginas * copias);
-                                impressao.setNomeArquivo(newFile.getName());
+                                    docFinal.save(newFile);
 
-                                impressaoBusiness.save(impressao);
+                                    FileInputStream fileInputStream = new FileInputStream(newFile);
+
+                                    Util.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, getSides(opcaoSides));
+
+                                    Impressao impressao = new Impressao();
+                                    impressao.setData(new Date());
+                                    impressao.setImpressora(impressoraSelecionada);
+                                    impressao.setUsuario(login);
+                                    impressao.setCopias(copias);
+                                    impressao.setPaginasDocumento(numeroPaginas);
+                                    impressao.setPaginasTotal(numeroPaginas * copias);
+                                    impressao.setNomeArquivo(newFile.getName());
+
+                                    impressaoBusiness.save(impressao);
+                                }else{
+                                    HomePage.this.info("Erro");
+                                }
 
                             } catch (Exception e) {
                                 throw new IllegalStateException("Unable to write file", e);
                             }
                         }
                     }
-                }else{
+                } else {
                     HomePage.this.info("Login Incorreto!!!");
                 }
             }
@@ -184,11 +191,11 @@ public class HomePage extends WebPage {
 
     }
 
-    private Sides getSides(String lado){
-        if(Sides.ONE_SIDED.toString().equalsIgnoreCase(lado)) return Sides.ONE_SIDED;
-        if(Sides.DUPLEX.toString().equalsIgnoreCase(lado)) return Sides.DUPLEX;
-        if(Sides.TWO_SIDED_SHORT_EDGE.toString().equalsIgnoreCase(lado)) return Sides.TWO_SIDED_SHORT_EDGE;
-        if(Sides.TWO_SIDED_LONG_EDGE.toString().equalsIgnoreCase(lado)) return Sides.TWO_SIDED_LONG_EDGE;
+    private Sides getSides(String lado) {
+        if (Sides.ONE_SIDED.toString().equalsIgnoreCase(lado)) return Sides.ONE_SIDED;
+        if (Sides.DUPLEX.toString().equalsIgnoreCase(lado)) return Sides.DUPLEX;
+        if (Sides.TWO_SIDED_SHORT_EDGE.toString().equalsIgnoreCase(lado)) return Sides.TWO_SIDED_SHORT_EDGE;
+        if (Sides.TWO_SIDED_LONG_EDGE.toString().equalsIgnoreCase(lado)) return Sides.TWO_SIDED_LONG_EDGE;
         return null;
     }
 
@@ -200,25 +207,25 @@ public class HomePage extends WebPage {
         }
     }
 
-    private PDDocument getPages(PDDocument doc, String rangers){
+    private PDDocument getPages(PDDocument doc, String rangers) {
 
         PDDocument documentoFinal = new PDDocument();
 
         String[] lista = rangers.split(",");
 
-        for(String x: lista){
-            if(x.contains("-")){
+        for (String x : lista) {
+            if (x.contains("-")) {
                 String[] y = x.split("-");
 
                 PDDocument pdDocument2 = getPages(doc, Integer.parseInt(y[0]), Integer.parseInt(y[1]));
 
-                for(int xs = 0; xs < pdDocument2.getNumberOfPages(); xs++){
+                for (int xs = 0; xs < pdDocument2.getNumberOfPages(); xs++) {
                     documentoFinal.addPage(pdDocument2.getPage(xs));
                 }
 
-            }else{
+            } else {
                 int numeroPagina = Integer.parseInt(x);
-                PDPage page = doc.getPage(numeroPagina-1);
+                PDPage page = doc.getPage(numeroPagina - 1);
                 documentoFinal.addPage(page);
             }
 
@@ -233,7 +240,7 @@ public class HomePage extends WebPage {
         return documentoFinal;
     }
 
-    private PDDocument getPages(PDDocument doc, int start, int end){
+    private PDDocument getPages(PDDocument doc, int start, int end) {
         PageExtractor pageExtractor = new PageExtractor(doc, start, end);
         PDDocument docReturn = new PDDocument();
         try {
