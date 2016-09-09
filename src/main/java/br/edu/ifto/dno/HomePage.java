@@ -224,6 +224,12 @@ public class HomePage extends WebPage {
 
         }
 
+        try {
+            documentoFinal.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return documentoFinal;
     }
 
