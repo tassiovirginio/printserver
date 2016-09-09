@@ -60,6 +60,9 @@ public class HomePage extends WebPage {
     @SpringBean
     private ImpressaoBusiness impressaoBusiness;
 
+    @SpringBean
+    private Boolean ldapLigado;
+
     private Folder getUploadFolder() {
         return ((WicketApplication) Application.get()).getUploadFolder();
     }
@@ -79,8 +82,11 @@ public class HomePage extends WebPage {
                 Boolean loginOK = false;
 
                 try {
-//                    loginOK = personRepo.login(login,senha);
-                    loginOK = true;
+                    if(ldapLigado) {
+                        loginOK = personRepo.login(login, senha);
+                    }else{
+                        loginOK = true;
+                    }
                 } catch (Exception e) {
                     HomePage.this.info("Error: " + e.getLocalizedMessage());
                 }
@@ -171,12 +177,12 @@ public class HomePage extends WebPage {
 
         progressUploadForm.add(new TextField<String>
                 ("login", new PropertyModel<String>(this, "login"))
-                .setRequired(true)
+                .setRequired(true).setVisible(ldapLigado)
         );
 
         progressUploadForm.add(new PasswordTextField
                 ("senha", new PropertyModel<String>(this, "senha"))
-                .setRequired(true)
+                .setRequired(true).setVisible(ldapLigado)
         );
 
         progressUploadForm.add(new TextField

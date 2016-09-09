@@ -93,20 +93,11 @@
         </property>
     </bean>
 
-    <!--<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">-->
-        <!--<property name="host" value="${email.host}"/>-->
-        <!--<property name="port" value="${email.port}"/>-->
-        <!--<property name="username" value="${email.username}"/>-->
-        <!--<property name="password" value="${email.password}"/>-->
-        <!--<property name="javaMailProperties">-->
-            <!--<props>-->
-                <!--<prop key="mail.smtp.auth">true</prop>-->
-                <!--<prop key="mail.smtp.starttls.enable">true</prop>-->
-                <!--<prop key="mail.smtp.ssl.trust">${email.host}</prop>-->
-            <!--</props>-->
-        <!--</property>-->
-    <!--</bean>-->
 
+    <!-- LDAP -->
+    <bean id="ldapLigado" class="java.lang.Boolean">
+        <constructor-arg value="${ldap.ligado}"/>
+    </bean>
 
     <ldap:context-source
             url="${ldap.url}"
@@ -119,24 +110,5 @@
     <bean id="personRepo" class="br.edu.ifto.dno.ldap.PersonRepo">
         <property name="ldapTemplate" ref="ldapTemplate" />
     </bean>
-
-    <!-- Contexto de conexao com o servidor -->
-    <!--<bean id="contextSourceTarget" class="org.springframework.ldap.core.support.LdapContextSource">-->
-    <!--<property name="url" value="ldap://10.4.0.3:389/" />-->
-    <!--<property name="base" value="ou=CA-DIANOP,ou=REITORIA,ou=IFTO,dc=ifto,dc=local" />-->
-    <!--<property name="userDn" value="cn=administrador,cn=users,dc=ifto,dc=local"/>-->
-    <!--<property name="password" value="Pmw_ifto_"/>-->
-    <!--<property name="pooled" value="true"/>-->
-    <!--</bean>-->
-
-    <!-- Pool de conexoes! Olhar no site para ou no pojo para ver as possiveis propriedades -->
-    <!--<bean id="contextSource"  class="org.springframework.ldap.pool.factory.PoolingContextSource">-->
-    <!--<property name="contextSource" ref="contextSourceTarget" />-->
-    <!--</bean>-->
-
-    <!-- Helper  -->
-    <!--<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">-->
-    <!--<constructor-arg ref="contextSource" />-->
-    <!--</bean>-->
 
 </beans>
