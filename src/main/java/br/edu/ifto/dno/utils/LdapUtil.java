@@ -1,4 +1,4 @@
-package br.edu.ifto.dno.ldap;
+package br.edu.ifto.dno.utils;
 
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DistinguishedName;
@@ -15,7 +15,7 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 /**
  * Created by tassio on 09/12/15.
  */
-public class PersonRepo {
+public class LdapUtil {
 
     private LdapTemplate ldapTemplate;
 

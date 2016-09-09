@@ -1,5 +1,6 @@
 package br.edu.ifto.dno;
 
+import br.edu.ifto.dno.pages.HomePage;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.response.filter.AjaxServerAndClientTimeFilter;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;

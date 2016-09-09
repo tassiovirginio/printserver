@@ -1,14 +1,13 @@
-package br.edu.ifto.dno;
+package br.edu.ifto.dno.pages;
 
+import br.edu.ifto.dno.utils.PrintUtil;
+import br.edu.ifto.dno.WicketApplication;
 import br.edu.ifto.dno.entities.Impressao;
-import br.edu.ifto.dno.entities.ImpressaoBusiness;
-import br.edu.ifto.dno.ldap.PersonRepo;
+import br.edu.ifto.dno.business.ImpressaoBusiness;
+import br.edu.ifto.dno.utils.LdapUtil;
 import org.apache.pdfbox.multipdf.PageExtractor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageTree;
-import org.apache.pdfbox.pdmodel.common.PDStream;
-import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.wicket.Application;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -20,7 +19,6 @@ import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.file.File;
@@ -30,10 +28,7 @@ import org.apache.wicket.util.lang.Bytes;
 
 import javax.print.attribute.standard.Sides;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,7 +50,7 @@ public class HomePage extends WebPage {
     private String paginas;
 
     @SpringBean
-    private PersonRepo personRepo;
+    private LdapUtil ldapUtil;
 
     @SpringBean
     private ImpressaoBusiness impressaoBusiness;
@@ -83,7 +78,7 @@ public class HomePage extends WebPage {
 
                 try {
                     if(ldapLigado) {
-                        loginOK = personRepo.login(login, senha);
+                        loginOK = ldapUtil.login(login, senha);
                     }else{
                         loginOK = true;
                         login = "LDAP-OFF";
@@ -131,7 +126,7 @@ public class HomePage extends WebPage {
 
                                     FileInputStream fileInputStream = new FileInputStream(newFile);
 
-                                    Util.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, getSides(opcaoSides));
+                                    PrintUtil.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, getSides(opcaoSides));
 
                                     Impressao impressao = new Impressao();
                                     impressao.setData(new Date());
@@ -166,12 +161,12 @@ public class HomePage extends WebPage {
         progressUploadForm.add(new UploadProgressBar("progress", progressUploadForm, fileUploadField));
         add(progressUploadForm);
 
-        List<String> impressoras = Util.listPrints();
+        List<String> impressoras = PrintUtil.listPrints();
         DropDownChoice ddcImpressoras = new DropDownChoice("listaimpressoras", new PropertyModel(this, "impressoraSelecionada"), impressoras);
         ddcImpressoras.setRequired(true);
         progressUploadForm.add(ddcImpressoras);
 
-        List<String> listaLados = Util.listSides();
+        List<String> listaLados = PrintUtil.listSides();
         DropDownChoice ddcLados = new DropDownChoice("listaLados", new PropertyModel(this, "opcaoSides"), listaLados);
         ddcLados.setRequired(true);
         progressUploadForm.add(ddcLados);

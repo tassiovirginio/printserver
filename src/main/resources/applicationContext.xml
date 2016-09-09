@@ -107,7 +107,7 @@
 
     <ldap:ldap-template id="ldapTemplate" />
 
-    <bean id="personRepo" class="br.edu.ifto.dno.ldap.PersonRepo">
+    <bean id="personRepo" class="br.edu.ifto.dno.utils.LdapUtil">
         <property name="ldapTemplate" ref="ldapTemplate" />
     </bean>
 

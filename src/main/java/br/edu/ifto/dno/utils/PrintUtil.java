@@ -1,4 +1,4 @@
-package br.edu.ifto.dno;
+package br.edu.ifto.dno.utils;
 
 import javax.print.*;
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Util {
+public class PrintUtil {
 
     private static DocFlavor myFormat;
 
@@ -18,7 +18,7 @@ public class Util {
         myFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;
     }
 
-    public Util(){
+    public PrintUtil(){
 
     }
 

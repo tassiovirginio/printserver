@@ -1,5 +1,6 @@
 package br.edu.ifto.dno;
 
+import br.edu.ifto.dno.pages.HomePage;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
