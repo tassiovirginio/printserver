@@ -38,6 +38,23 @@
                 PRINTSERVER
             </a>
         </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav  navbar-left">
+                <li>
+                    <a class="btn btn-default btn-xs"  style="color: black; background-color: dodgerblue" href="#">
+                        <span class="glyphicon glyphicon-home"></span>
+                        Menu</a></li>
+                <li><a style="color: #FFFFFF;" href="#">
+                    <span class="glyphicon glyphicon-send"></span>
+                    Ultimas impressões</a></li>
+                <li><a style="color: #FFFFFF;" href="#">
+                    <span class="glyphicon glyphicon-check"></span>
+                    Totais do Mês por IP</a></li>
+                <li><a style="color: #FFFFFF;" href="#">
+                    <span class="glyphicon glyphicon-user"></span>
+                    Totais do Mês por Usuário</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 <br><br>
@@ -51,7 +68,8 @@
                             Impressora:
                             <select wicket:id="listaimpressoras" class="form-control" />
                             Cópias: <input wicket:id="copias" class="form-control" type="text" style="width: 40px;" value="1"/>
-                            Páginas: <input wicket:id="paginaInicial" class="form-control" type="text" style="width: 40px;" value="1"/><input wicket:id="paginaFinal" class="form-control" type="text" style="width: 40px;" value="1"/>
+                            Páginas (1-3, 4,5) *bug:
+                            <input wicket:id="paginas" class="form-control" type="text" style="width: 120px;" value="1"/>
                             Duplex/One Sided:
                             <select wicket:id="listaLados" class="form-control"/>
                             <br>

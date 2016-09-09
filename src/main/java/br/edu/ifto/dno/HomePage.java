@@ -3,9 +3,11 @@ package br.edu.ifto.dno;
 import br.edu.ifto.dno.entities.Impressao;
 import br.edu.ifto.dno.entities.ImpressaoBusiness;
 import br.edu.ifto.dno.ldap.PersonRepo;
+import org.apache.pdfbox.multipdf.PageExtractor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageTree;
+import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.wicket.Application;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
@@ -28,6 +30,10 @@ import org.apache.wicket.util.lang.Bytes;
 
 import javax.print.attribute.standard.Sides;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,8 +52,7 @@ public class HomePage extends WebPage {
 
     private Integer copias;
 
-    private Integer paginaInicial;
-    private Integer paginaFinal;
+    private String paginas;
 
     @SpringBean
     private PersonRepo personRepo;
@@ -74,7 +79,8 @@ public class HomePage extends WebPage {
                 Boolean loginOK = false;
 
                 try {
-                    loginOK = personRepo.login(login,senha);
+//                    loginOK = personRepo.login(login,senha);
+                    loginOK = true;
                 }catch (Exception e){
                     HomePage.this.info("Error: " + e.getLocalizedMessage());
                 }
@@ -96,25 +102,11 @@ public class HomePage extends WebPage {
                                 newFile.createNewFile();
                                 upload.writeTo(newFile);
 
-                                PDDocument doc = PDDocument.load(newFile);
+                                PDDocument doc_ = PDDocument.load(newFile);
 //                                int numeroPaginas = doc.getNumberOfPages();
 
-                                //paginas ex: 1-10
-                                PDPageTree paginas = doc.getPages();
-                                paginas.getCount();
-
-                                PDDocument PDFPaginas = new PDDocument();
-
-                                int paginaAtual = paginaInicial;
-
-                                while(paginaAtual < paginaFinal){
-                                    PDFPaginas.addPage(paginas.get(paginaAtual));
-                                    paginaAtual++;
-                                }
-
-                                int numeroPaginas = PDFPaginas.getNumberOfPages();
-
-                                PDFPaginas.save(newFile);
+                                PDDocument docFinal = getPages(doc_,paginas);
+                                int numeroPaginas = docFinal.getNumberOfPages();
 
                                 HomePage.this.info("Usuario: " + login + " enviou impressão para : "
                                         + impressoraSelecionada
@@ -124,8 +116,10 @@ public class HomePage extends WebPage {
                                         + " - Paginas Total: " + numeroPaginas * copias
                                 );
 
+                                docFinal.save(newFile);
 
                                 FileInputStream fileInputStream = new FileInputStream(newFile);
+
                                 Util.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, getSides(opcaoSides));
 
                                 Impressao impressao = new Impressao();
@@ -184,15 +178,9 @@ public class HomePage extends WebPage {
         );
 
         progressUploadForm.add(new TextField
-                ("paginaInicial", new PropertyModel<String>(this, "paginaInicial"))
+                ("paginas", new PropertyModel<String>(this, "paginas"))
                 .setRequired(true)
         );
-
-        progressUploadForm.add(new TextField
-                ("paginaFinal", new PropertyModel<String>(this, "paginaFinal"))
-                .setRequired(true)
-        );
-
 
     }
 
@@ -211,4 +199,44 @@ public class HomePage extends WebPage {
             }
         }
     }
+
+    private PDDocument getPages(PDDocument doc, String rangers){
+
+        PDDocument documentoFinal = new PDDocument();
+
+        String[] lista = rangers.split(",");
+
+        for(String x: lista){
+            if(x.contains("-")){
+                String[] y = x.split("-");
+
+                PDDocument pdDocument2 = getPages(doc, Integer.parseInt(y[0]), Integer.parseInt(y[1]));
+
+                for(int xs = 0; xs < pdDocument2.getNumberOfPages(); xs++){
+                    documentoFinal.addPage(pdDocument2.getPage(xs));
+                }
+
+            }else{
+                int numeroPagina = Integer.parseInt(x);
+                PDPage page = doc.getPage(numeroPagina-1);
+                documentoFinal.addPage(page);
+            }
+
+        }
+
+        return documentoFinal;
+    }
+
+    private PDDocument getPages(PDDocument doc, int start, int end){
+        PageExtractor pageExtractor = new PageExtractor(doc, start, end);
+        PDDocument docReturn = new PDDocument();
+        try {
+            docReturn = pageExtractor.extract();
+        } catch (Exception e) {
+            e.printStackTrace();
+            HomePage.this.info("Ultrapassou o numero de pagians do documento.");
+        }
+        return docReturn;
+    }
+
 }
