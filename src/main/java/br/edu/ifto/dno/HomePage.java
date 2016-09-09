@@ -86,6 +86,7 @@ public class HomePage extends WebPage {
                         loginOK = personRepo.login(login, senha);
                     }else{
                         loginOK = true;
+                        login = "LDAP-OFF";
                     }
                 } catch (Exception e) {
                     HomePage.this.info("Error: " + e.getLocalizedMessage());
