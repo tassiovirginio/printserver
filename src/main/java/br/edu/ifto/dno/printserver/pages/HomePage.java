@@ -1,10 +1,10 @@
-package br.edu.ifto.dno.pages;
+package br.edu.ifto.dno.printserver.pages;
 
-import br.edu.ifto.dno.utils.PrintUtil;
-import br.edu.ifto.dno.WicketApplication;
-import br.edu.ifto.dno.entities.Impressao;
-import br.edu.ifto.dno.business.ImpressaoBusiness;
-import br.edu.ifto.dno.utils.LdapUtil;
+import br.edu.ifto.dno.printserver.WicketApplication;
+import br.edu.ifto.dno.printserver.business.ImpressaoBusiness;
+import br.edu.ifto.dno.printserver.entities.Impressao;
+import br.edu.ifto.dno.printserver.utils.PrintUtil;
+import br.edu.ifto.dno.printserver.utils.LdapUtil;
 import org.apache.pdfbox.multipdf.PageExtractor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;

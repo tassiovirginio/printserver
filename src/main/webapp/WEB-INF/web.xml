@@ -15,7 +15,7 @@
 		</init-param>
 		<init-param>
 			<param-name>applicationClassName</param-name>
-			<param-value>br.edu.ifto.dno.WicketApplication</param-value>
+			<param-value>br.edu.ifto.dno.printserver.WicketApplication</param-value>
 		</init-param>
 	</filter>
 

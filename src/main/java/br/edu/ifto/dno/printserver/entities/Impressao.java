@@ -1,4 +1,4 @@
-package br.edu.ifto.dno.entities;
+package br.edu.ifto.dno.printserver.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;

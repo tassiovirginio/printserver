@@ -1,4 +1,4 @@
-package br.edu.ifto.dno.utils;
+package br.edu.ifto.dno.printserver.utils;
 
 import javax.print.*;
 import javax.print.attribute.HashPrintRequestAttributeSet;

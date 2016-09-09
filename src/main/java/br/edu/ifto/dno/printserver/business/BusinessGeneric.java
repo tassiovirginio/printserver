@@ -1,4 +1,4 @@
-package br.edu.ifto.dno.business;
+package br.edu.ifto.dno.printserver.business;
 
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;

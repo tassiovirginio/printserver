@@ -1,4 +1,4 @@
-package br.edu.ifto.dno.utils;
+package br.edu.ifto.dno.printserver.utils;
 
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DistinguishedName;

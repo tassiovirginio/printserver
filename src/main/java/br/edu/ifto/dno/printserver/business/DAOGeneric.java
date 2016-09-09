@@ -1,4 +1,4 @@
-package br.edu.ifto.dno.business;
+package br.edu.ifto.dno.printserver.business;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;

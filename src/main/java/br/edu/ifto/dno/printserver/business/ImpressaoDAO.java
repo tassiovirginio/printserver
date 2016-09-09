@@ -1,6 +1,6 @@
-package br.edu.ifto.dno.business;
+package br.edu.ifto.dno.printserver.business;
 
-import br.edu.ifto.dno.entities.Impressao;
+import br.edu.ifto.dno.printserver.entities.Impressao;
 import org.springframework.stereotype.Component;
 
 /**

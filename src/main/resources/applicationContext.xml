@@ -34,7 +34,7 @@
         <property name="fileEncoding" value="utf-8"/>
     </bean>
 
-    <context:component-scan base-package="br.edu.ifto.dno"/>
+    <context:component-scan base-package="br.edu.ifto.dno.printserver"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
@@ -56,7 +56,7 @@
                 <!--<prop key="jadira.usertype.autoRegisterUserTypes">true</prop>-->
             </props>
         </property>
-        <property name="packagesToScan" value="br.edu.ifto.dno.entities"/>
+        <property name="packagesToScan" value="br.edu.ifto.dno.printserver.entities"/>
     </bean>
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -107,7 +107,7 @@
 
     <ldap:ldap-template id="ldapTemplate" />
 
-    <bean id="personRepo" class="br.edu.ifto.dno.utils.LdapUtil">
+    <bean id="personRepo" class="br.edu.ifto.dno.printserver.utils.LdapUtil">
         <property name="ldapTemplate" ref="ldapTemplate" />
     </bean>
 
