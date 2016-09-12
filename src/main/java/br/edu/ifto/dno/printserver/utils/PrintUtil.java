@@ -83,7 +83,7 @@ public class PrintUtil {
             System.out.println(ps.getName());
         }
 
-        System.out.println("Printing to default printer: " + printService.getName());
+//        System.out.println("Printing to default printer: " + printService.getName());
 
 //        DocPrintJob job = printService.createPrintJob();
 

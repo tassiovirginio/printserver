@@ -10,6 +10,7 @@ import org.apache.pdfbox.multipdf.PageExtractor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.wicket.Application;
+import org.apache.wicket.Session;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -19,6 +20,7 @@ import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.protocol.http.request.WebClientInfo;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -137,11 +139,17 @@ public class HomePage extends Base {
                                     impressao.setPaginasDocumento(numeroPaginas);
                                     impressao.setPaginasTotal(numeroPaginas * copias);
                                     impressao.setNomeArquivo(newFile.getName());
+                                    String remoteAddress = ((WebClientInfo) Session.get().getClientInfo())
+                                            .getProperties()
+                                            .getRemoteAddress();
+                                    impressao.setIpOrigem(remoteAddress);
 
                                     impressaoBusiness.save(impressao);
                                 }else{
                                     HomePage.this.info("Erro");
                                 }
+
+                                docFinal.close();
 
                             } catch (Exception e) {
                                 throw new IllegalStateException("Unable to write file", e);
@@ -214,6 +222,10 @@ public class HomePage extends Base {
 
         PDDocument documentoFinal = new PDDocument();
 
+        if(rangers.trim().isEmpty()){
+            return doc;
+        }
+
         String[] lista = rangers.split(",");
 
         for (String x : lista) {
@@ -231,13 +243,6 @@ public class HomePage extends Base {
                 PDPage page = doc.getPage(numeroPagina - 1);
                 documentoFinal.addPage(page);
             }
-
-        }
-
-        try {
-            documentoFinal.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return documentoFinal;
