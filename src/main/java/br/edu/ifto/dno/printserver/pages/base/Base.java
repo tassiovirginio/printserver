@@ -1,6 +1,8 @@
 package br.edu.ifto.dno.printserver.pages.base;
 
 import br.edu.ifto.dno.printserver.pages.HomePage;
+import br.edu.ifto.dno.printserver.pages.TotalPorIP;
+import br.edu.ifto.dno.printserver.pages.TotalPorUsuario;
 import br.edu.ifto.dno.printserver.pages.UltimasImpressoes;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
@@ -24,6 +26,21 @@ public class Base extends WebPage {
             @Override
             public void onClick() {
                 Base.this.setResponsePage(UltimasImpressoes.class);
+            }
+        });
+
+
+        add(new Link("lkTotalPorIP") {
+            @Override
+            public void onClick() {
+                Base.this.setResponsePage(TotalPorIP.class);
+            }
+        });
+
+        add(new Link("lkTotalPorUsuario") {
+            @Override
+            public void onClick() {
+                Base.this.setResponsePage(TotalPorUsuario.class);
             }
         });
 
