@@ -15,4 +15,6 @@ hs_err_pid*
 target
 *.iml
 
+db/
+
 #src/main/resources/application.properties
