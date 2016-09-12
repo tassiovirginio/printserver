@@ -3,6 +3,7 @@ package br.edu.ifto.dno.printserver.pages;
 import br.edu.ifto.dno.printserver.WicketApplication;
 import br.edu.ifto.dno.printserver.business.ImpressaoBusiness;
 import br.edu.ifto.dno.printserver.entities.Impressao;
+import br.edu.ifto.dno.printserver.pages.base.Base;
 import br.edu.ifto.dno.printserver.utils.PrintUtil;
 import br.edu.ifto.dno.printserver.utils.LdapUtil;
 import org.apache.pdfbox.multipdf.PageExtractor;
@@ -32,7 +33,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-public class HomePage extends WebPage {
+public class HomePage extends Base {
     private static final long serialVersionUID = 1L;
 
     private FileUploadField fileUploadField;
