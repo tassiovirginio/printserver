@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class UltimasImpressoes extends Base {
     public UltimasImpressoes(final PageParameters parameters) {
         super(parameters);
 
-        List<Impressao> listaImpressao = impressaoBusiness.listAll();
+        List<Impressao> listaImpressao = impressaoBusiness.getUltimasImpressoes(10);
 
         ListView<Impressao> listView = new ListView<Impressao>("listaImpressao",listaImpressao) {
             @Override
@@ -28,7 +29,7 @@ public class UltimasImpressoes extends Base {
                 Impressao impressao = listItem.getModelObject();
                 listItem.add(new Label("impressora",impressao.getImpressora()));
                 listItem.add(new Label("usuario",impressao.getUsuario()));
-                listItem.add(new Label("data",impressao.getData()));
+                listItem.add(new Label("data",new LocalDateTime(impressao.getData()).toString("HH:mm dd/MM/yyyy")));
                 listItem.add(new Label("ip",impressao.getIpOrigem()));
                 listItem.add(new Label("total",impressao.getPaginasTotal()));
             }

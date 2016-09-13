@@ -1,5 +1,11 @@
 package br.edu.ifto.dno.printserver.utils;
 
+import br.edu.ifto.dno.printserver.pages.HomePage;
+import org.apache.pdfbox.multipdf.PageExtractor;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.springframework.stereotype.Component;
+
 import javax.print.*;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
@@ -7,22 +13,65 @@ import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.Sides;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+@Component
 public class PrintUtil {
 
-    private static DocFlavor myFormat;
+    private DocFlavor myFormat;
 
-    static {
+    public PrintUtil(){
         myFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;
     }
 
-    public PrintUtil(){
+    public PDDocument getPages(PDDocument doc, String rangers) throws IOException {
 
+        PDDocument documentoFinal = new PDDocument();
+
+        if(rangers.trim().isEmpty()){
+            return doc;
+        }
+
+        String[] lista = rangers.split(",");
+
+        for (String x : lista) {
+            if (x.contains("-")) {
+                String[] y = x.split("-");
+
+                PDDocument pdDocument2 = getPages(doc, Integer.parseInt(y[0]), Integer.parseInt(y[1]));
+
+                for (int xs = 0; xs < pdDocument2.getNumberOfPages(); xs++) {
+                    documentoFinal.addPage(pdDocument2.getPage(xs));
+                }
+
+            } else {
+                int numeroPagina = Integer.parseInt(x);
+                PDPage page = doc.getPage(numeroPagina - 1);
+                documentoFinal.addPage(page);
+            }
+        }
+
+        return documentoFinal;
     }
 
-    public static ArrayList<String> listPrints(){
+    public Sides getSides(String lado) {
+        if (Sides.ONE_SIDED.toString().equalsIgnoreCase(lado)) return Sides.ONE_SIDED;
+        if (Sides.DUPLEX.toString().equalsIgnoreCase(lado)) return Sides.DUPLEX;
+        if (Sides.TWO_SIDED_SHORT_EDGE.toString().equalsIgnoreCase(lado)) return Sides.TWO_SIDED_SHORT_EDGE;
+        if (Sides.TWO_SIDED_LONG_EDGE.toString().equalsIgnoreCase(lado)) return Sides.TWO_SIDED_LONG_EDGE;
+        return null;
+    }
+
+    private PDDocument getPages(PDDocument doc, int start, int end) throws IOException {
+        PageExtractor pageExtractor = new PageExtractor(doc, start, end);
+        PDDocument docReturn = new PDDocument();
+        docReturn = pageExtractor.extract();
+        return docReturn;
+    }
+
+    public ArrayList<String> listPrints(){
         ArrayList<String> listaImrpessoras = new ArrayList<String>();
         PrintService[] printServices = PrintServiceLookup.lookupPrintServices(myFormat,null);
         for(PrintService ps:printServices){
@@ -31,7 +80,7 @@ public class PrintUtil {
         return listaImrpessoras;
     }
 
-    public static ArrayList<String> listSides(){
+    public ArrayList<String> listSides(){
         ArrayList<String> lista = new ArrayList<String>();
         lista.add(Sides.ONE_SIDED.toString());
         lista.add(Sides.TWO_SIDED_LONG_EDGE.toString());
@@ -39,7 +88,7 @@ public class PrintUtil {
         return lista;
     }
 
-    public static void enviarArquivoImpressao(FileInputStream documento, String impressora, int copias, Sides lados){
+    public void enviarArquivoImpressao(FileInputStream documento, String impressora, int copias, Sides lados){
         try {
             Doc myDoc = new SimpleDoc(documento, myFormat, null);
             PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
@@ -64,7 +113,7 @@ public class PrintUtil {
 
     }
 
-    public static void main(String args[]) throws FileNotFoundException, PrintException {
+    public void main(String args[]) throws FileNotFoundException, PrintException {
 //        FileInputStream textStream = new FileInputStream("/home/tassio/Desenvolvimento/teste.txt");
         FileInputStream textStream = new FileInputStream("/home/tassio/Documentos/SOLICITAÇÃO DE DIARIAS E PASSAGENS_tassio.pdf");
 

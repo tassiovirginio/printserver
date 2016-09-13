@@ -15,6 +15,7 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 /**
  * Created by tassio on 09/12/15.
  */
+//Iniciado pelo xml
 public class LdapUtil {
 
     private LdapTemplate ldapTemplate;

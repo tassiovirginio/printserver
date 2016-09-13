@@ -56,6 +56,9 @@ public class HomePage extends Base {
     private LdapUtil ldapUtil;
 
     @SpringBean
+    private PrintUtil printUtil;
+
+    @SpringBean
     private ImpressaoBusiness impressaoBusiness;
 
     @SpringBean
@@ -110,7 +113,13 @@ public class HomePage extends Base {
                                 PDDocument doc_ = PDDocument.load(newFile);
 //                                int numeroPaginas = doc.getNumberOfPages();
 
-                                PDDocument docFinal = getPages(doc_, paginas);
+                                PDDocument docFinal = null;
+                                try {
+                                    docFinal = printUtil.getPages(doc_, paginas);
+                                }catch (Exception e){
+                                    HomePage.this.info("Ultrapassou o numero de pagians do documento.");
+                                }
+
                                 int numeroPaginas = docFinal.getNumberOfPages();
 
 
@@ -129,7 +138,7 @@ public class HomePage extends Base {
 
                                     FileInputStream fileInputStream = new FileInputStream(newFile);
 
-                                    PrintUtil.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, getSides(opcaoSides));
+                                    printUtil.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, printUtil.getSides(opcaoSides));
 
                                     Impressao impressao = new Impressao();
                                     impressao.setData(new Date());
@@ -170,12 +179,12 @@ public class HomePage extends Base {
         progressUploadForm.add(new UploadProgressBar("progress", progressUploadForm, fileUploadField));
         add(progressUploadForm);
 
-        List<String> impressoras = PrintUtil.listPrints();
+        List<String> impressoras = printUtil.listPrints();
         DropDownChoice ddcImpressoras = new DropDownChoice("listaimpressoras", new PropertyModel(this, "impressoraSelecionada"), impressoras);
         ddcImpressoras.setRequired(true);
         progressUploadForm.add(ddcImpressoras);
 
-        List<String> listaLados = PrintUtil.listSides();
+        List<String> listaLados = printUtil.listSides();
         DropDownChoice ddcLados = new DropDownChoice("listaLados", new PropertyModel(this, "opcaoSides"), listaLados);
         ddcLados.setRequired(true);
         progressUploadForm.add(ddcLados);
@@ -202,14 +211,6 @@ public class HomePage extends Base {
 
     }
 
-    private Sides getSides(String lado) {
-        if (Sides.ONE_SIDED.toString().equalsIgnoreCase(lado)) return Sides.ONE_SIDED;
-        if (Sides.DUPLEX.toString().equalsIgnoreCase(lado)) return Sides.DUPLEX;
-        if (Sides.TWO_SIDED_SHORT_EDGE.toString().equalsIgnoreCase(lado)) return Sides.TWO_SIDED_SHORT_EDGE;
-        if (Sides.TWO_SIDED_LONG_EDGE.toString().equalsIgnoreCase(lado)) return Sides.TWO_SIDED_LONG_EDGE;
-        return null;
-    }
-
     private void checkFileExists(File newFile) {
         if (newFile.exists()) {
             if (!Files.remove(newFile)) {
@@ -218,46 +219,5 @@ public class HomePage extends Base {
         }
     }
 
-    private PDDocument getPages(PDDocument doc, String rangers) {
-
-        PDDocument documentoFinal = new PDDocument();
-
-        if(rangers.trim().isEmpty()){
-            return doc;
-        }
-
-        String[] lista = rangers.split(",");
-
-        for (String x : lista) {
-            if (x.contains("-")) {
-                String[] y = x.split("-");
-
-                PDDocument pdDocument2 = getPages(doc, Integer.parseInt(y[0]), Integer.parseInt(y[1]));
-
-                for (int xs = 0; xs < pdDocument2.getNumberOfPages(); xs++) {
-                    documentoFinal.addPage(pdDocument2.getPage(xs));
-                }
-
-            } else {
-                int numeroPagina = Integer.parseInt(x);
-                PDPage page = doc.getPage(numeroPagina - 1);
-                documentoFinal.addPage(page);
-            }
-        }
-
-        return documentoFinal;
-    }
-
-    private PDDocument getPages(PDDocument doc, int start, int end) {
-        PageExtractor pageExtractor = new PageExtractor(doc, start, end);
-        PDDocument docReturn = new PDDocument();
-        try {
-            docReturn = pageExtractor.extract();
-        } catch (Exception e) {
-            e.printStackTrace();
-            HomePage.this.info("Ultrapassou o numero de pagians do documento.");
-        }
-        return docReturn;
-    }
 
 }
