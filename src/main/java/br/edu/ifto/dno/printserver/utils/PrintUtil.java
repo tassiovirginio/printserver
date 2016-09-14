@@ -30,7 +30,7 @@ public class PrintUtil {
 
         PDDocument documentoFinal = new PDDocument();
 
-        if(rangers.trim().isEmpty()){
+        if(rangers == null || rangers.trim().isEmpty()){
             return doc;
         }
 

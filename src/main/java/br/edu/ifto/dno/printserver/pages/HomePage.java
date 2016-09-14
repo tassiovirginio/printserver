@@ -221,7 +221,7 @@ public class HomePage extends Base {
 
         progressUploadForm.add(new TextField
                 ("paginas", new PropertyModel<String>(this, "paginas"))
-                .setRequired(true)
+                .setRequired(false)
         );
 
     }
