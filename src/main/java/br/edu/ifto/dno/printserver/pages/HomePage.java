@@ -33,6 +33,8 @@ import org.apache.wicket.util.lang.Bytes;
 import javax.print.attribute.standard.Sides;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -116,7 +118,13 @@ public class HomePage extends Base {
 
                                     if(fileUpload.getName().endsWith(".docx")) {
                                         try {
-                                            fileConvertido = conversor.converterDOCtoPDF(fileUpload);
+                                            fileConvertido = conversor.converterDOCtoPDF(fileUpload.inputStream());
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }else if(fileUpload.getName().endsWith(".odt")){
+                                        try {
+                                            fileConvertido = conversor.converterODTtoPDF(fileUpload.inputStream());
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
