@@ -4,6 +4,7 @@ import br.edu.ifto.dno.printserver.WicketApplication;
 import br.edu.ifto.dno.printserver.business.ImpressaoBusiness;
 import br.edu.ifto.dno.printserver.entities.Impressao;
 import br.edu.ifto.dno.printserver.pages.base.Base;
+import br.edu.ifto.dno.printserver.utils.Conversor;
 import br.edu.ifto.dno.printserver.utils.PrintUtil;
 import br.edu.ifto.dno.printserver.utils.LdapUtil;
 import org.apache.pdfbox.multipdf.PageExtractor;
@@ -98,20 +99,34 @@ public class HomePage extends Base {
                     final List<FileUpload> uploads = fileUploadField.getFileUploads();
                     if (uploads != null) {
                         for (FileUpload upload : uploads) {
-                            File newFile = new File(getUploadFolder(), upload.getClientFileName());
+                            File fileUpload = new File(getUploadFolder(), upload.getClientFileName());
 
-                            if (!newFile.getName().endsWith(".pdf")) {
-                                HomePage.this.info("O ARQUIVO TEM QUE SER PDF !!");
-                                break;
-                            }
+                            checkFileExists(fileUpload);
 
-                            checkFileExists(newFile);
                             try {
-                                newFile.createNewFile();
-                                upload.writeTo(newFile);
+                                fileUpload.createNewFile();
+                                upload.writeTo(fileUpload);
 
-                                PDDocument doc_ = PDDocument.load(newFile);
-//                                int numeroPaginas = doc.getNumberOfPages();
+                                Conversor conversor = new Conversor();
+
+                                java.io.File fileConvertido = null;
+
+                                if (!fileUpload.getName().endsWith(".pdf")) {
+                                    HomePage.this.info(fileUpload.getName() + " ARQUIVO Convertido para PDF !!");
+
+                                    if(fileUpload.getName().endsWith(".docx")) {
+                                        try {
+                                            fileConvertido = conversor.converterDOCtoPDF(fileUpload);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                }else if(fileUpload.getName().endsWith(".pdf")){
+                                    fileConvertido = fileUpload;
+                                }
+
+                                PDDocument doc_ = PDDocument.load(fileConvertido);
 
                                 PDDocument docFinal = null;
                                 try {
@@ -134,9 +149,9 @@ public class HomePage extends Base {
                                     );
 
 
-                                    docFinal.save(newFile);
+                                    docFinal.save(fileConvertido);
 
-                                    FileInputStream fileInputStream = new FileInputStream(newFile);
+                                    FileInputStream fileInputStream = new FileInputStream(fileConvertido);
 
                                     printUtil.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, printUtil.getSides(opcaoSides));
 
@@ -147,7 +162,7 @@ public class HomePage extends Base {
                                     impressao.setCopias(copias);
                                     impressao.setPaginasDocumento(numeroPaginas);
                                     impressao.setPaginasTotal(numeroPaginas * copias);
-                                    impressao.setNomeArquivo(newFile.getName());
+                                    impressao.setNomeArquivo(fileUpload.getName());
                                     String remoteAddress = ((WebClientInfo) Session.get().getClientInfo())
                                             .getProperties()
                                             .getRemoteAddress();
