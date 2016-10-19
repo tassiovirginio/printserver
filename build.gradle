@@ -1,0 +1,100 @@
+apply plugin: 'war'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+apply plugin: 'org.akhikhl.gretty'
+
+gretty {
+    port = 8080
+    contextPath = '/'
+    servletContainer = 'jetty9'
+    managedClassReload = true
+}
+
+sourceSets {
+    main {
+        java{srcDir 'src/main/java'}
+        resources { srcDir 'src/main/resources' srcDir 'src/main/java' }
+    }
+}
+
+tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    maven {url "https://repository.apache.org/content/repositories/snapshots/" }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:+'
+    }
+}
+
+dependencies {
+    compile group: 'org.apache.wicket', name: 'wicket', version: wicketVersion
+    compile group: 'org.apache.wicket', name: 'wicket-extensions', version: wicketVersion
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4jVersion
+
+    //LOGGING DEPENDENCIES - LOG4J
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: log4jVersion
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
+
+    compile group: 'fr.opensagres.xdocreport', name: 'org.odftoolkit.odfdom.converter.pdf', version: xdocreportVersion
+    compile group: 'fr.opensagres.xdocreport', name: 'fr.opensagres.xdocreport.converter', version: xdocreportVersion
+    compile group: 'fr.opensagres.xdocreport', name: 'fr.opensagres.xdocreport.converter.odt.odfdom', version: xdocreportVersion
+    compile group: 'fr.opensagres.xdocreport', name: 'fr.opensagres.xdocreport.converter.docx.xwpf', version: xdocreportVersion
+    compile group: 'fr.opensagres.xdocreport', name: 'org.apache.poi.xwpf.converter.core', version: xdocreportVersion
+    compile group: 'fr.opensagres.xdocreport', name: 'org.odftoolkit.odfdom.converter.core', version: xdocreportVersion
+    compile group: 'fr.opensagres.xdocreport', name: 'org.apache.poi.xwpf.converter.pdf', version: xdocreportVersion
+    compile group: 'fr.opensagres.xdocreport', name: 'fr.opensagres.xdocreport.document', version: xdocreportVersion
+
+    compile group: 'org.docx4j', name: 'docx4j', version: '3.3.1'
+
+    //WICKET DEPENDENCIES
+    compile group: 'org.apache.wicket', name: 'wicket-core', version: wicketVersion
+    compile group: 'org.apache.wicket', name: 'wicket-extensions', version: wicketVersion
+    compile group: 'org.apache.wicket', name: 'wicket-spring', version: wicketVersion
+
+    //LOGGING DEPENDENCIES
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: log4jVersion
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
+
+    //Hibernate
+    compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
+    compile group: 'javassist', name: 'javassist', version: javassistVersion
+    compile group: 'c3p0', name: 'c3p0', version: c3p0Version
+    compile group: 'org.jadira.usertype', name: 'usertype.core', version: '3.2.0.GA'
+    compile group: 'joda-time', name: 'joda-time', version: '2.6'
+    compile group: 'com.fatboyindustrial.gson-jodatime-serialisers', name: 'gson-jodatime-serialisers', version: '1.2.0'
+    compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
+    compile group: 'org.hsqldb', name: 'hsqldb', version: hsqldbVersion
+
+    compile group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.2'
+
+    //Spring
+    compile group: 'org.springframework', name: 'spring-core', version: springVersion
+    compile group: 'org.springframework', name: 'spring-context', version: springVersion
+    compile group: 'org.springframework', name: 'spring-context-support', version: springVersion
+    compile group: 'org.springframework', name: 'spring-web', version: springVersion
+    compile group: 'org.springframework', name: 'spring-tx', version: springVersion
+    compile group: 'org.springframework', name: 'spring-aop', version: springVersion
+    compile group: 'org.springframework', name: 'spring-orm', version: springVersion
+    compile group: 'org.springframework', name: 'spring-jdbc', version: springVersion
+    compile group: 'org.springframework', name: 'spring-test', version: springVersion
+    compile group: 'org.springframework.ldap', name: 'spring-ldap-core', version: '2.0.4.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.10.0.RELEASE'
+
+
+    //Quartz framework
+    compile group: 'org.quartz-scheduler', name: 'quartz', version: '1.8.6'
+
+    testCompile group: 'junit', name: 'junit', version: junitVersion
+    testCompile group: 'org.mortbay.jetty', name: 'jetty', version: jettyVersion
+    testCompile group: 'org.mortbay.jetty', name: 'jetty-util', version: jettyVersion
+    testCompile group: 'org.mortbay.jetty', name: 'jetty-management', version: jettyVersion
+}
+
