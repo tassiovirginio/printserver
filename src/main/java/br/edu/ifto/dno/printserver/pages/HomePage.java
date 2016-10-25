@@ -114,21 +114,22 @@ public class HomePage extends Base {
                                 java.io.File fileConvertido = null;
 
                                 if (!fileUpload.getName().endsWith(".pdf")) {
-                                    HomePage.this.info(fileUpload.getName() + " ARQUIVO Convertido para PDF !!");
-
-                                    if(fileUpload.getName().endsWith(".docx")) {
-                                        try {
-                                            fileConvertido = conversor.converterDOCtoPDF(fileUpload.inputStream());
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }else if(fileUpload.getName().endsWith(".odt")){
-                                        try {
-                                            fileConvertido = conversor.converterODTtoPDF(fileUpload.inputStream());
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
+                                    HomePage.this.info("O Sistema so aceita aquivos PDFs!");
+//                                    HomePage.this.info(fileUpload.getName() + " ARQUIVO Convertido para PDF !!");
+//
+//                                    if(fileUpload.getName().endsWith(".docx")) {
+//                                        try {
+//                                            fileConvertido = conversor.converterDOCtoPDF(fileUpload.inputStream());
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                    }else if(fileUpload.getName().endsWith(".odt")){
+//                                        try {
+//                                            fileConvertido = conversor.converterODTtoPDF(fileUpload.inputStream());
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                    }
 
                                 }else if(fileUpload.getName().endsWith(".pdf")){
                                     fileConvertido = fileUpload;
@@ -140,7 +141,7 @@ public class HomePage extends Base {
                                 try {
                                     docFinal = printUtil.getPages(doc_, paginas);
                                 }catch (Exception e){
-                                    HomePage.this.info("Ultrapassou o numero de pagians do documento.");
+                                    HomePage.this.info("Ultrapassou o numero de paginas do documento.");
                                 }
 
                                 int numeroPaginas = docFinal.getNumberOfPages();
