@@ -2,6 +2,8 @@ package br.edu.ifto.dno.printserver;
 
 import br.edu.ifto.dno.printserver.business.ImpressoraBusiness;
 import br.edu.ifto.dno.printserver.pages.HomePage;
+import de.spqrinfo.cups4j.CupsPrinter;
+import de.spqrinfo.cups4j.PrintJob;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.response.filter.AjaxServerAndClientTimeFilter;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 import java.util.logging.Logger;
 
 @Component
@@ -68,6 +71,16 @@ public class WicketApplication extends WebApplication {
                     InputStream inputStream = socket.getInputStream();
 
                     BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+
+//                    try {
+//                        CupsPrinter printer = new CupsPrinter(new URL("http://127.0.0.1:631/printers/PDF"),
+//                                "PDFTeste2",false);
+//                        PrintJob printJob = (new PrintJob.Builder(inputStream)).userName("Tassio").jobName("Teste2").copies(1).duplex(false).build();
+//                        printer.print(printJob);
+//                    }catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+
                     while (true) {
                         String cominginText = "";
                         cominginText = in.readLine();
