@@ -1,0 +1,35 @@
+<wicket:extend xmlns:wicket="http://wicket.apache.org">
+    <h2>Impressoras</h2>
+    <table class="table" style="font-size: 13px;">
+        <tr>
+            <th>Cadastro</th>
+        </tr>
+        <tr>
+            <td>
+                <form wicket:id="form">
+                    Nome:<input wicket:id="nome" type="text" /><br>
+                    Descrição:<input wicket:id="descricao" type="text" /><br>
+                    url:<input wicket:id="url" type="text" /><br>
+                    Ativo:<input wicket:id="ativa" type="checkbox" /><br>
+                    <input type="submit" />
+                </form>
+
+            </td>
+        </tr>
+    </table>
+    <table class="table" style="font-size: 13px;">
+        <tr>
+            <th>nome</th>
+            <th>descrição</th>
+            <th>url</th>
+            <th>ativa</th>
+        </tr>
+        <tr wicket:id="listaImpressoras">
+            <td wicket:id="nome"></td>
+            <td wicket:id="descricao"></td>
+            <td wicket:id="url"></td>
+            <td wicket:id="ativa"></td>
+        </tr>
+    </table>
+
+</wicket:extend>

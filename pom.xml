@@ -279,6 +279,37 @@
             <version>1.8.6</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/de.spqr-info/cups4j -->
+        <dependency>
+            <groupId>de.spqr-info</groupId>
+            <artifactId>cups4j</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/de.spqr-info/cups4j-vppserver -->
+        <dependency>
+            <groupId>de.spqr-info</groupId>
+            <artifactId>cups4j-vppserver</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/de.spqr-info/cups4j-cli -->
+        <dependency>
+            <groupId>de.spqr-info</groupId>
+            <artifactId>cups4j-cli</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/de.spqr-info/cups4j-parent -->
+        <dependency>
+            <groupId>de.spqr-info</groupId>
+            <artifactId>cups4j-parent</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+
+
     </dependencies>
     <build>
         <resources>
