@@ -132,6 +132,8 @@ public class PrintUtil {
             IppResult result = e.request(new URL(impressora.getUrl()), (Map)null);
             IppResultPrinter.print(result);
 
+            duplex = false;
+
             CupsPrinter printer = new CupsPrinter(new URL(impressora.getUrl()),impressora.getNome(),false);
             PrintJob printJob = (new PrintJob.Builder(documento)).userName(usuario).jobName(fileName).copies(copias).duplex(duplex).build();
             printer.print(printJob);
