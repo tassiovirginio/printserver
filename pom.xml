@@ -355,6 +355,10 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty9.version}</version>
                 <configuration>
+                    <httpConnector>
+                        <port>8083</port>
+                    </httpConnector>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
                     <systemProperties>
                         <systemProperty>
                             <name>maven.project.build.directory.test-classes</name>
