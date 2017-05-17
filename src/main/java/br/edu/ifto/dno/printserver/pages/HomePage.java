@@ -6,7 +6,6 @@ import br.edu.ifto.dno.printserver.business.ImpressoraBusiness;
 import br.edu.ifto.dno.printserver.entities.Impressao;
 import br.edu.ifto.dno.printserver.entities.Impressora;
 import br.edu.ifto.dno.printserver.pages.base.Base;
-import br.edu.ifto.dno.printserver.utils.Conversor;
 import br.edu.ifto.dno.printserver.utils.PrintUtil;
 import br.edu.ifto.dno.printserver.utils.LdapUtil;
 import org.apache.pdfbox.multipdf.PageExtractor;
@@ -113,27 +112,10 @@ public class HomePage extends Base {
                                 fileUpload.createNewFile();
                                 upload.writeTo(fileUpload);
 
-                                Conversor conversor = new Conversor();
-
                                 java.io.File fileConvertido = null;
 
                                 if (!fileUpload.getName().endsWith(".pdf")) {
                                     HomePage.this.info("O Sistema so aceita aquivos PDFs!");
-//                                    HomePage.this.info(fileUpload.getName() + " ARQUIVO Convertido para PDF !!");
-//
-//                                    if(fileUpload.getName().endsWith(".docx")) {
-//                                        try {
-//                                            fileConvertido = conversor.converterDOCtoPDF(fileUpload.inputStream());
-//                                        } catch (Exception e) {
-//                                            e.printStackTrace();
-//                                        }
-//                                    }else if(fileUpload.getName().endsWith(".odt")){
-//                                        try {
-//                                            fileConvertido = conversor.converterODTtoPDF(fileUpload.inputStream());
-//                                        } catch (Exception e) {
-//                                            e.printStackTrace();
-//                                        }
-//                                    }
 
                                 }else if(fileUpload.getName().endsWith(".pdf")){
                                     fileConvertido = fileUpload;
@@ -165,8 +147,6 @@ public class HomePage extends Base {
                                     docFinal.save(fileConvertido);
 
                                     FileInputStream fileInputStream = new FileInputStream(fileConvertido);
-
-                                    //printUtil.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, printUtil.getSides(opcaoSides));
 
                                     printUtil.enviarArquivoImpressao(fileInputStream,upload.getClientFileName(), impressoraSelecionada, copias, duplex,login);
 
@@ -218,7 +198,7 @@ public class HomePage extends Base {
         //List<String> listaLados = printUtil.listSides();
         //DropDownChoice ddcLados = new DropDownChoice("listaLados", new PropertyModel(this, "opcaoSides"), listaLados);
         //ddcLados.setRequired(true);
-        progressUploadForm.add(new CheckBox("duplex", new PropertyModel(this, "duplex")));
+        progressUploadForm.add(new CheckBox("duplex", new PropertyModel(this, "duplex")).setVisible(false));
 
         progressUploadForm.add(new TextField<String>
                 ("login", new PropertyModel<String>(this, "login"))

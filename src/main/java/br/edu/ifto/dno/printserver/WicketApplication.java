@@ -1,7 +1,7 @@
 package br.edu.ifto.dno.printserver;
 
 import br.edu.ifto.dno.printserver.business.ImpressoraBusiness;
-import br.edu.ifto.dno.printserver.pages.HomePage;
+import br.edu.ifto.dno.printserver.pages.*;
 import de.spqrinfo.cups4j.CupsPrinter;
 import de.spqrinfo.cups4j.PrintJob;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -55,6 +55,13 @@ public class WicketApplication extends WebApplication {
         uploadFolder = new Folder(System.getProperty("java.io.tmpdir"), "wicket-uploads");
         uploadFolder.mkdirs();
         getApplicationSettings().setUploadProgressUpdatesEnabled(true);
+
+        mountPage("/imprimir/", HomePage.class);
+        mountPage("/totalporip/", TotalPorIP.class);
+        mountPage("/totalporusuario/", TotalPorUsuario.class);
+        mountPage("/ultimasimpressoes/", UltimasImpressoes.class);
+
+        mountPage("/impressoras/", Impressoras.class);
 
         servidor(4631);
 

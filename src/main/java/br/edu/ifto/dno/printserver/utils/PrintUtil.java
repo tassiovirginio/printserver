@@ -4,23 +4,28 @@ import br.edu.ifto.dno.printserver.entities.Impressora;
 import br.edu.ifto.dno.printserver.pages.HomePage;
 import de.spqrinfo.cups4j.CupsPrinter;
 import de.spqrinfo.cups4j.PrintJob;
+import de.spqrinfo.cups4j.operations.ipp.IppGetPrinterAttributesOperation;
+import de.spqrinfo.cups4j.util.IppResultPrinter;
+import de.spqrinfo.vppserver.ippclient.IppResult;
 import org.apache.pdfbox.multipdf.PageExtractor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.springframework.stereotype.Component;
 import sun.print.CUPSPrinter;
+import sun.print.IPPPrintService;
 
 import javax.print.*;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.*;
 import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.Sides;
+import javax.print.event.PrintServiceAttributeListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 
 @Component
 public class PrintUtil {
@@ -93,8 +98,8 @@ public class PrintUtil {
         return lista;
     }
 
-    /**
-    public void enviarArquivoImpressao(FileInputStream documento, Impressora impressora, int copias, Sides lados){
+
+    public void enviarArquivoImpressao2(FileInputStream documento, Impressora impressora, int copias, Sides lados){
         try {
             Doc myDoc = new SimpleDoc(documento, myFormat, null);
             PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
@@ -118,10 +123,15 @@ public class PrintUtil {
         }
 
     }
-    **/
+
 
     public void enviarArquivoImpressao(FileInputStream documento, String fileName, Impressora impressora, int copias, Boolean duplex, String usuario){
         try {
+
+            IppGetPrinterAttributesOperation e = new IppGetPrinterAttributesOperation(631);
+            IppResult result = e.request(new URL(impressora.getUrl()), (Map)null);
+            IppResultPrinter.print(result);
+
             CupsPrinter printer = new CupsPrinter(new URL(impressora.getUrl()),impressora.getNome(),false);
             PrintJob printJob = (new PrintJob.Builder(documento)).userName(usuario).jobName(fileName).copies(copias).duplex(duplex).build();
             printer.print(printJob);
