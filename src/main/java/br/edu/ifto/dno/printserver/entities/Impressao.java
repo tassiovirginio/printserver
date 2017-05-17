@@ -20,7 +20,8 @@ public class Impressao implements Serializable {
 
     private String ipOrigem;
 
-    private String impressora;
+    @ManyToOne
+    private Impressora impressora;
 
     private Integer copias;
 
@@ -72,11 +73,11 @@ public class Impressao implements Serializable {
         this.ipOrigem = ipOrigem;
     }
 
-    public String getImpressora() {
+    public Impressora getImpressora() {
         return impressora;
     }
 
-    public void setImpressora(String impressora) {
+    public void setImpressora(Impressora impressora) {
         this.impressora = impressora;
     }
 

@@ -27,7 +27,7 @@ public class TotalPorIP extends Base {
             @Override
             protected void populateItem(ListItem<Impressao> listItem) {
                 Impressao impressao = listItem.getModelObject();
-                listItem.add(new Label("impressora",impressao.getImpressora()));
+                listItem.add(new Label("impressora",impressao.getImpressora().getNome()));
                 listItem.add(new Label("usuario",impressao.getUsuario()));
                 listItem.add(new Label("data",new LocalDateTime(impressao.getData()).toString("HH:mm dd/MM/yyyy")));
                 listItem.add(new Label("ip",impressao.getIpOrigem()));

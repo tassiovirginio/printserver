@@ -1,6 +1,15 @@
 body {
     padding-top: 52px;
-    background-image: url("/imgs/wallpaper.png");
+    background-image: url("/imgs/wallpaper.jpg");
+}
+
+.drop-shadow {
+    -webkit-box-shadow: 0 0 5px 10px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 10px rgba(0, 0, 0, .5);
+}
+.container.drop-shadow {
+    padding-left:0;
+    padding-right:0;
 }
 
 .fundocinza {

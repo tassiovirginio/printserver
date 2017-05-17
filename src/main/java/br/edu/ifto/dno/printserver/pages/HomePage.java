@@ -2,7 +2,9 @@ package br.edu.ifto.dno.printserver.pages;
 
 import br.edu.ifto.dno.printserver.WicketApplication;
 import br.edu.ifto.dno.printserver.business.ImpressaoBusiness;
+import br.edu.ifto.dno.printserver.business.ImpressoraBusiness;
 import br.edu.ifto.dno.printserver.entities.Impressao;
+import br.edu.ifto.dno.printserver.entities.Impressora;
 import br.edu.ifto.dno.printserver.pages.base.Base;
 import br.edu.ifto.dno.printserver.utils.Conversor;
 import br.edu.ifto.dno.printserver.utils.PrintUtil;
@@ -13,10 +15,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.wicket.Application;
 import org.apache.wicket.Session;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.PasswordTextField;
-import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -43,9 +42,11 @@ public class HomePage extends Base {
 
     private FileUploadField fileUploadField;
 
-    private String impressoraSelecionada;
+    private Impressora impressoraSelecionada;
 
     private String opcaoSides;
+
+    private Boolean duplex;
 
     private String login;
 
@@ -66,6 +67,9 @@ public class HomePage extends Base {
 
     @SpringBean
     private Boolean ldapLigado;
+
+    @SpringBean
+    private ImpressoraBusiness impressoraBusiness;
 
     private Folder getUploadFolder() {
         return ((WicketApplication) Application.get()).getUploadFolder();
@@ -150,7 +154,7 @@ public class HomePage extends Base {
                                 if (docFinal.getNumberOfPages() > 0) {
 
                                     HomePage.this.info("Usuario: " + login + " enviou impressão para : "
-                                            + impressoraSelecionada
+                                            + impressoraSelecionada.getNome()
                                             + " - "
                                             + upload.getClientFileName()
                                             + " - Paginas do Documento: " + numeroPaginas
@@ -162,7 +166,9 @@ public class HomePage extends Base {
 
                                     FileInputStream fileInputStream = new FileInputStream(fileConvertido);
 
-                                    printUtil.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, printUtil.getSides(opcaoSides));
+                                    //printUtil.enviarArquivoImpressao(fileInputStream, impressoraSelecionada, copias, printUtil.getSides(opcaoSides));
+
+                                    printUtil.enviarArquivoImpressao(fileInputStream,upload.getClientFileName(), impressoraSelecionada, copias, duplex,login);
 
                                     Impressao impressao = new Impressao();
                                     impressao.setData(new Date());
@@ -203,15 +209,16 @@ public class HomePage extends Base {
         progressUploadForm.add(new UploadProgressBar("progress", progressUploadForm, fileUploadField));
         add(progressUploadForm);
 
-        List<String> impressoras = printUtil.listPrints();
-        DropDownChoice ddcImpressoras = new DropDownChoice("listaimpressoras", new PropertyModel(this, "impressoraSelecionada"), impressoras);
+        //List<String> impressoras = printUtil.listPrints();
+        List<Impressora> impressoras = impressoraBusiness.listAll();
+        DropDownChoice ddcImpressoras = new DropDownChoice("listaimpressoras", new PropertyModel(this, "impressoraSelecionada"), impressoras, new ChoiceRenderer("nome","id"));
         ddcImpressoras.setRequired(true);
         progressUploadForm.add(ddcImpressoras);
 
-        List<String> listaLados = printUtil.listSides();
-        DropDownChoice ddcLados = new DropDownChoice("listaLados", new PropertyModel(this, "opcaoSides"), listaLados);
-        ddcLados.setRequired(true);
-        progressUploadForm.add(ddcLados);
+        //List<String> listaLados = printUtil.listSides();
+        //DropDownChoice ddcLados = new DropDownChoice("listaLados", new PropertyModel(this, "opcaoSides"), listaLados);
+        //ddcLados.setRequired(true);
+        progressUploadForm.add(new CheckBox("duplex", new PropertyModel(this, "duplex")));
 
         progressUploadForm.add(new TextField<String>
                 ("login", new PropertyModel<String>(this, "login"))

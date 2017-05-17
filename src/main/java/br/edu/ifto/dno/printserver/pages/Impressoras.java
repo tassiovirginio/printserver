@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.PropertyModel;
@@ -25,11 +26,20 @@ public class Impressoras extends Base {
     private ImpressoraBusiness impressoraBusiness;
 
 
-    private Impressora impressoraNova = new Impressora();
+    private Impressora impressoraNova;
 
-    public Impressoras(final PageParameters parameters) {
-        super(parameters);
+    public Impressoras(){
+        this(null);
+    }
 
+    public Impressoras(Impressora impressoraEditar) {
+        super(null);
+
+        if(impressoraEditar != null) {
+            impressoraNova = impressoraEditar;
+        }else{
+            impressoraNova = new Impressora();
+        }
 
         Form form = new Form("form"){
             @Override
@@ -56,6 +66,18 @@ public class Impressoras extends Base {
                 listItem.add(new Label("descricao",impressora.getDescricao()));
                 listItem.add(new Label("url",impressora.getUrl()));
                 listItem.add(new Label("ativa",impressora.getAtiva()));
+                listItem.add(new Link("editar") {
+                    @Override
+                    public void onClick() {
+                        Impressoras.this.setResponsePage(new Impressoras(impressora));
+                    }
+                });
+                listItem.add(new Link("deletar") {
+                    @Override
+                    public void onClick() {
+                        impressoraBusiness.delete(impressora);
+                    }
+                });
             }
         };
 

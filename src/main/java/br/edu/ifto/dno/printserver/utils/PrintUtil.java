@@ -1,10 +1,14 @@
 package br.edu.ifto.dno.printserver.utils;
 
+import br.edu.ifto.dno.printserver.entities.Impressora;
 import br.edu.ifto.dno.printserver.pages.HomePage;
+import de.spqrinfo.cups4j.CupsPrinter;
+import de.spqrinfo.cups4j.PrintJob;
 import org.apache.pdfbox.multipdf.PageExtractor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.springframework.stereotype.Component;
+import sun.print.CUPSPrinter;
 
 import javax.print.*;
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -15,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
 
 @Component
@@ -88,7 +93,8 @@ public class PrintUtil {
         return lista;
     }
 
-    public void enviarArquivoImpressao(FileInputStream documento, String impressora, int copias, Sides lados){
+    /**
+    public void enviarArquivoImpressao(FileInputStream documento, Impressora impressora, int copias, Sides lados){
         try {
             Doc myDoc = new SimpleDoc(documento, myFormat, null);
             PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
@@ -100,13 +106,25 @@ public class PrintUtil {
             DocPrintJob job = null;
 
             for(PrintService ps:printServices){
-                if(impressora.trim().equalsIgnoreCase(ps.getName().trim())){
+                if(impressora.getNome().trim().equalsIgnoreCase(ps.getName().trim())){
                     job = ps.createPrintJob();
                     break;
                 }
             }
             job.print(myDoc, aset);
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+    **/
+
+    public void enviarArquivoImpressao(FileInputStream documento, String fileName, Impressora impressora, int copias, Boolean duplex, String usuario){
+        try {
+            CupsPrinter printer = new CupsPrinter(new URL(impressora.getUrl()),impressora.getNome(),false);
+            PrintJob printJob = (new PrintJob.Builder(documento)).userName(usuario).jobName(fileName).copies(copias).duplex(duplex).build();
+            printer.print(printJob);
         }catch (Exception e){
             e.printStackTrace();
         }
