@@ -2,16 +2,33 @@
     <h2>Impressoras</h2>
     <table class="table" style="font-size: 13px;">
         <tr>
-            <th>Cadastro</th>
-        </tr>
-        <tr>
             <td>
                 <form wicket:id="form">
-                    Nome:<input wicket:id="nome" type="text" /><br>
-                    Descrição:<input wicket:id="descricao" type="text" /><br>
-                    url:<input wicket:id="url" type="text" /><br>
-                    Ativo:<input wicket:id="ativa" type="checkbox" /><br>
-                    <input type="submit" />
+
+                    <table class="table">
+                        <tr style="background-color: #0f0f0f; color: white;">
+                            <th colspan="2" style="text-align: center;">Cadastro</th>
+                        </tr>
+                        <tr>
+                            <td>Nome</td><td><input wicket:id="nome" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Descrição</td><td><input wicket:id="descricao" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>url</td><td><input wicket:id="url" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Ativo</td><td><input wicket:id="ativa" type="checkbox" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Salvar" class="btn btn-danger" />
+                            </td>
+                        </tr>
+                    </table>
+
+
                 </form>
 
             </td>
@@ -23,6 +40,7 @@
             <th>descrição</th>
             <th>url</th>
             <th>ativa</th>
+            <th></th>
         </tr>
         <tr wicket:id="listaImpressoras">
             <td wicket:id="nome"></td>
@@ -30,8 +48,7 @@
             <td wicket:id="url"></td>
             <td wicket:id="ativa"></td>
             <td>
-                <a wicket:id="editar">editar</a> -
-                <a wicket:id="deletar">deletar</a>
+                <a wicket:id="editar" class="btn btn-xs btn-warning" >editar</a><a wicket:id="deletar" class="btn btn-xs btn-danger">deletar</a>
             </td>
         </tr>
     </table>
