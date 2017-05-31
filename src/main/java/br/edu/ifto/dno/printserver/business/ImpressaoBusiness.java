@@ -1,5 +1,6 @@
 package br.edu.ifto.dno.printserver.business;
 
+import br.edu.ifto.dno.printserver.dtos.ImpressoesIPTotalMes;
 import br.edu.ifto.dno.printserver.dtos.ImpressoesUsuariosTotalMes;
 import br.edu.ifto.dno.printserver.entities.Impressao;
 import org.hibernate.Criteria;
@@ -82,6 +83,44 @@ public class ImpressaoBusiness extends BusinessGeneric<ImpressaoDAO, Impressao> 
 
 
         return impressoesUsuariosTotalMes;
+    }
+
+
+    public List<ImpressoesIPTotalMes> getImpressoesPorMesIP(int mes, int ano) {
+        LocalDate initial = LocalDate.of(ano, mes, 1);
+
+        LocalDate startLocalDate = initial.withDayOfMonth(1);
+        java.util.Date start = java.sql.Date.valueOf(startLocalDate);
+
+        LocalDate endLocalDate = initial.withDayOfMonth(initial.lengthOfMonth());
+        java.util.Date end = java.sql.Date.valueOf(endLocalDate);
+
+        List<Impressao> lista = impressaoDAO.findByCriteriaReturnList(
+                between("data", start, end)
+        );
+
+        Map<String, Integer> listaIP = new HashMap<String, Integer>();
+        List<ImpressoesIPTotalMes> impressoesIPTotalMes = new ArrayList<ImpressoesIPTotalMes>();
+
+        for (Impressao i : lista) {
+            if (listaIP.containsKey(i.getIpOrigem())) {
+                int valor = listaIP.get(i.getIpOrigem());
+                listaIP.put(i.getIpOrigem(), i.getPaginasTotal() + valor);
+            } else {
+                listaIP.put(i.getIpOrigem(), i.getPaginasTotal());
+            }
+        }
+
+        Iterator iteTotalIP = listaIP.entrySet().iterator();
+
+        while (iteTotalIP.hasNext()) {
+            Map.Entry<String, Integer> pair = (Map.Entry) iteTotalIP.next();
+            impressoesIPTotalMes.add(new ImpressoesIPTotalMes(pair.getKey(),pair.getValue()));
+            iteTotalIP.remove();
+        }
+
+
+        return impressoesIPTotalMes;
     }
 
 }
