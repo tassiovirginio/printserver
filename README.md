@@ -1,4 +1,4 @@
-# printserver
+# PrintServer
 
 Pre-requisitos do sistema
  - Java 1.8 
@@ -12,11 +12,11 @@ Pre-requisitos do sistema
  
  Instalação:
  
- git clone https://github.com/tassiovirginio/printserver.git
+ / git clone https://github.com/tassiovirginio/printserver.git
  
- cd printserver
+ / cd printserver
  
- mvn jetty:run
+ / mvn jetty:run
  
  acesse: http://127.0.0.1:8083/
  
@@ -30,15 +30,15 @@ Pre-requisitos do sistema
  
  no Ubuntu instale o "screen":
  
- sudo apt install acreen
+ / sudo apt install acreen
  
  após a instalação execute o sistema com o comando:
  
- screen -S printserver mvn jetty:run
+ / screen -S printserver mvn jetty:run
  
  depois que o sistema iniciar precione: Ctrl + A   , o terminal vai ser fechado, mas o processo vai continuar rodando.
  
  para acessar novamente o terminal digite:
  
- screen -R
+ / screen -R
  
