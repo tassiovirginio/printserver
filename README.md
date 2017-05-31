@@ -20,8 +20,10 @@ Pre-requisitos do sistema
  
  acesse: http://127.0.0.1:8083/
  
- para cadastrar as impressoras acesse: 
+ Para cadastrar as impressoras acesse: 
  
  http://127.0.0.1:8083/impressoras
+ 
+ O sistema acessa impressoras atravez do protocolo IPP. No cadastro da impressora coloque o nome da impressora, descrição e a url do serviço de impressão dela pelo ipp, e ative a mesma.
  
  
