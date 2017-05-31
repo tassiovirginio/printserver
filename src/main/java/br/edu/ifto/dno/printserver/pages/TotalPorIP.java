@@ -1,6 +1,7 @@
 package br.edu.ifto.dno.printserver.pages;
 
 import br.edu.ifto.dno.printserver.business.ImpressaoBusiness;
+import br.edu.ifto.dno.printserver.dtos.ImpressoesIPTotalMes;
 import br.edu.ifto.dno.printserver.entities.Impressao;
 import br.edu.ifto.dno.printserver.pages.base.Base;
 import org.apache.wicket.markup.html.basic.Label;
@@ -10,6 +11,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.LocalDateTime;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class TotalPorIP extends Base {
@@ -21,17 +23,14 @@ public class TotalPorIP extends Base {
     public TotalPorIP(final PageParameters parameters) {
         super(parameters);
 
-        List<Impressao> listaImpressao = impressaoBusiness.listAll();
+        List<ImpressoesIPTotalMes> listaImpressao = impressaoBusiness.getImpressoesPorMesIP(LocalDate.now().getMonthValue(),LocalDate.now().getYear());
 
-        ListView<Impressao> listView = new ListView<Impressao>("listaImpressao",listaImpressao) {
+        ListView<ImpressoesIPTotalMes> listView = new ListView<ImpressoesIPTotalMes>("listaImpressao",listaImpressao) {
             @Override
-            protected void populateItem(ListItem<Impressao> listItem) {
-                Impressao impressao = listItem.getModelObject();
-                listItem.add(new Label("impressora",impressao.getImpressora().getNome()));
-                listItem.add(new Label("usuario",impressao.getUsuario()));
-                listItem.add(new Label("data",new LocalDateTime(impressao.getData()).toString("HH:mm dd/MM/yyyy")));
-                listItem.add(new Label("ip",impressao.getIpOrigem()));
-                listItem.add(new Label("total",impressao.getPaginasTotal()));
+            protected void populateItem(ListItem<ImpressoesIPTotalMes> listItem) {
+                ImpressoesIPTotalMes impressao = listItem.getModelObject();
+                listItem.add(new Label("ip",impressao.getIp()));
+                listItem.add(new Label("qtd",impressao.getQtd()));
             }
         };
 
