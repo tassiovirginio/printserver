@@ -26,4 +26,19 @@ Pre-requisitos do sistema
  
  O sistema acessa impressoras atravez do protocolo IPP. No cadastro da impressora coloque o nome da impressora, descrição e a url do serviço de impressão dela pelo ipp, e ative a mesma.
  
+ Se estiver utilizando uma distribuição linux, pode utilizar o "screen" para levantar o sistema, podendo sair do terminal sem delisgar o sistema.
+ 
+ no Ubuntu instale o "screen":
+ 
+ sudo apt install acreen
+ 
+ após a instalação execute o sistema com o comando:
+ 
+ screen -S printserver mvn jetty:run
+ 
+ depois que o sistema iniciar precione: Ctrl + A   , o terminal vai ser fechado, mas o processo vai continuar rodando.
+ 
+ para acessar novamente o terminal digite:
+ 
+ screen -R
  
