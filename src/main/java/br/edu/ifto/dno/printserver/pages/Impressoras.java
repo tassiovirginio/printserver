@@ -25,14 +25,27 @@ public class Impressoras extends Base {
     @SpringBean
     private ImpressoraBusiness impressoraBusiness;
 
+    @SpringBean(name = "admin.login")
+    private String adminLogin;
+
+    @SpringBean(name = "admin.senha")
+    private String adminSenha;
+
+    private String login;
+
+    private String senha;
 
     private Impressora impressoraNova;
 
     public Impressoras(){
-        this(null);
+        this(null,false);
     }
 
     public Impressoras(Impressora impressoraEditar) {
+        this(impressoraEditar,false);
+    }
+
+    public Impressoras(Impressora impressoraEditar, Boolean admin) {
         super(null);
 
         if(impressoraEditar != null) {
@@ -54,7 +67,26 @@ public class Impressoras extends Base {
         form.add(new TextField<>("url",new PropertyModel<String>(impressoraNova,"url")));
         form.add(new CheckBox("ativa",new PropertyModel<Boolean>(impressoraNova,"ativa")));
 
+        form.setVisible(admin);
+
         add(form);
+
+
+        Form formLogin = new Form("formLogin"){
+            @Override
+            protected void onSubmit() {
+                if(adminLogin.equals(login) && adminSenha.equals(senha)){
+                    setResponsePage(new Impressoras(impressoraEditar,true));
+                }else{
+                    setResponsePage(new Impressoras(impressoraEditar,false));
+                }
+            }
+        };
+        formLogin.add(new TextField<>("login",new PropertyModel<String>(this,"login")));
+        formLogin.add(new TextField<>("senha",new PropertyModel<String>(this,"senha")));
+        formLogin.setVisible(!admin);
+
+        add(formLogin);
 
 
         List<Impressora> listaImpressao = impressoraBusiness.listAll();
@@ -69,15 +101,16 @@ public class Impressoras extends Base {
                 listItem.add(new Link("editar") {
                     @Override
                     public void onClick() {
-                        Impressoras.this.setResponsePage(new Impressoras(impressora));
+                        setResponsePage(new Impressoras(impressora,admin));
                     }
-                });
+                }.setVisible(admin));
                 listItem.add(new Link("deletar") {
                     @Override
                     public void onClick() {
                         impressoraBusiness.delete(impressora);
+                        setResponsePage(new Impressoras(null,admin));
                     }
-                });
+                }.setVisible(admin));
             }
         };
 

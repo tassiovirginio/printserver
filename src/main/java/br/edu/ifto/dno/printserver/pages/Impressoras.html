@@ -31,10 +31,37 @@
 
                 </form>
 
+                <form wicket:id="formLogin">
+
+                    <table class="table">
+                        <tr style="background-color: #0f0f0f; color: white;">
+                            <th colspan="2" style="text-align: center;">LOGIN</th>
+                        </tr>
+                        <tr>
+                            <td>Nome</td><td><input wicket:id="login" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Descrição</td><td><input wicket:id="senha" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Acessar" class="btn btn-danger" />
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </form>
+
             </td>
         </tr>
     </table>
     <table class="table" style="font-size: 13px;">
+        <tr>
+            <th>
+            <th colspan="2" style="text-align: center;">Lista Impressoras</th>
+            </th>
+        </tr>
         <tr>
             <th>nome</th>
             <th>descrição</th>

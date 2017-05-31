@@ -46,7 +46,7 @@ public class Base extends WebPage {
             public void onClick() {
                 Base.this.setResponsePage(Impressoras.class);
             }
-        }.setVisible(false));
+        });
 
     }
 
