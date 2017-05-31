@@ -20,10 +20,13 @@ Pre-requisitos do sistema
  
  acesse: http://127.0.0.1:8083/
  
- Para cadastrar as impressoras acesse: 
+ Para cadastrar as impressoras click em "Impressoras".
  
- http://127.0.0.1:8083/impressoras
+ login: admin
+ senha: admin
  
+ ** O login e senha podem ser alterados no application.properties.
+  
  O sistema acessa impressoras atravez do protocolo IPP. No cadastro da impressora coloque o nome da impressora, descrição e a url do serviço de impressão dela pelo ipp, e ative a mesma.
  
  Se estiver utilizando uma distribuição linux, pode utilizar o "screen" para levantar o sistema, podendo sair do terminal sem delisgar o sistema.
