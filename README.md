@@ -33,7 +33,7 @@ Pre-requisitos do sistema
  
  no Ubuntu instale o "screen":
  
- / sudo apt install acreen
+ / sudo apt install screen
  
  após a instalação execute o sistema com o comando:
  
