@@ -40,5 +40,5 @@ Pre-requisitos do sistema
  
  para acessar novamente o terminal digite:
  
- / screen -R
+ / screen -R 
  
