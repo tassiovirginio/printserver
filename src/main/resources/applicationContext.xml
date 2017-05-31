@@ -26,7 +26,7 @@
     <bean id="placeholderConfig"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location">
-            <value>classpath:application.dno.properties</value>
+            <value>classpath:application.properties</value>
         </property>
         <property name="systemPropertiesModeName">
             <value>SYSTEM_PROPERTIES_MODE_OVERRIDE</value>
@@ -107,7 +107,7 @@
 
     <ldap:ldap-template id="ldapTemplate" />
 
-    <bean id="personRepo" class="br.edu.ifto.printserver.utils.LdapUtil">
+    <bean id="personRepo" class="br.edu.ifto.dno.printserver.utils.LdapUtil">
         <property name="ldapTemplate" ref="ldapTemplate" />
     </bean>
 
