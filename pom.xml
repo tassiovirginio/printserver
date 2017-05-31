@@ -358,7 +358,7 @@
                     <httpConnector>
                         <port>8083</port>
                     </httpConnector>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <scanIntervalSeconds>0</scanIntervalSeconds>
                     <systemProperties>
                         <systemProperty>
                             <name>maven.project.build.directory.test-classes</name>

@@ -171,7 +171,8 @@ public class HomePage extends Base {
                                 docFinal.close();
 
                             } catch (Exception e) {
-                                throw new IllegalStateException("Unable to write file", e);
+                                e.printStackTrace();
+                                HomePage.this.info("Arquivo Danificado !!!");
                             }
                         }
                     }
