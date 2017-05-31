@@ -39,7 +39,7 @@ Pre-requisitos do sistema
  
  / screen -S printserver mvn jetty:run
  
- depois que o sistema iniciar precione: Ctrl + A   , o terminal vai ser fechado, mas o processo vai continuar rodando.
+ depois que o sistema iniciar precione: Ctrl + A + D   , o terminal vai ser fechado, mas o processo vai continuar rodando.
  
  para acessar novamente o terminal digite:
  
