@@ -8,6 +8,7 @@ import br.edu.ifto.dno.printserver.pages.base.Base;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -83,7 +84,7 @@ public class Impressoras extends Base {
             }
         };
         formLogin.add(new TextField<>("login",new PropertyModel<String>(this,"login")));
-        formLogin.add(new TextField<>("senha",new PropertyModel<String>(this,"senha")));
+        formLogin.add(new PasswordTextField("senha",new PropertyModel<String>(this,"senha")));
         formLogin.setVisible(!admin);
 
         add(formLogin);
