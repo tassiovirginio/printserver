@@ -2,9 +2,7 @@
 
 Video Demonstrando o Sistema:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/uZycKj1_ZIU?rel=0" frameborder="0" allowfullscreen></iframe>
-
-- https://youtu.be/uZycKj1_ZIU
+[![Everything Is AWESOME](https://img.youtube.com/vi/uZycKj1_ZIU/0.jpg)](https://www.youtube.com/embed/uZycKj1_ZIU?rel=0 "Everything Is AWESOME")
 
 Pre-requisitos do sistema
  - Java 1.8 
