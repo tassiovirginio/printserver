@@ -2,7 +2,10 @@
 
 Video Demonstrando o Sistema:
 
-[![Everything Is AWESOME](https://img.youtube.com/vi/uZycKj1_ZIU/0.jpg)](https://www.youtube.com/embed/uZycKj1_ZIU?rel=0 "Everything Is AWESOME"){:target="_blank"}
+
+<a href="https://www.youtube.com/embed/uZycKj1_ZIU?rel=0" target="_blank">
+    <img src="https://img.youtube.com/vi/uZycKj1_ZIU/0.jpg" />
+</a>
 
 Pre-requisitos do sistema
  - Java 1.8 
