@@ -13,3 +13,9 @@ db/
 .gradle/
 build/
 classes/
+
+.classpath
+.factorypath
+.project
+.settings/
+.vscode/
