@@ -2,6 +2,8 @@
 
 Video Demonstrando o Sistema:
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/uZycKj1_ZIU?rel=0" frameborder="0" allowfullscreen></iframe>
+
 - https://youtu.be/uZycKj1_ZIU
 
 Pre-requisitos do sistema
@@ -15,12 +17,12 @@ Pre-requisitos do sistema
  localização do application.properties -> printserver/src/main/resources/application.properties
  
  Instalação:
- 
- / git clone https://github.com/tassiovirginio/printserver.git
- 
- / cd printserver
- 
- / mvn jetty:run
+
+ ```shell
+ git clone https://github.com/tassiovirginio/printserver.git
+ cd printserver
+ mvn jetty:run
+```
  
  acesse: http://127.0.0.1:8083/
  
@@ -37,15 +39,19 @@ Pre-requisitos do sistema
  
  no Ubuntu instale o "screen":
  
- / sudo apt install screen
- 
+```shell
+sudo apt install screen
+```
  após a instalação execute o sistema com o comando:
  
- / screen -S printserver mvn jetty:run
+```shell
+screen -S printserver mvn jetty:run
+``` 
+
+depois que o sistema iniciar precione: Ctrl + A + D   , o terminal vai ser fechado, mas o processo vai continuar rodando.
  
- depois que o sistema iniciar precione: Ctrl + A + D   , o terminal vai ser fechado, mas o processo vai continuar rodando.
- 
- para acessar novamente o terminal digite:
- 
- / screen -R 
- 
+para acessar novamente o terminal digite:
+
+```shell
+screen -R 
+```
